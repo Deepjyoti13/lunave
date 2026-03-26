@@ -5,11 +5,13 @@ import { useState, useEffect } from 'react'
 import { Search, User, Heart, ShoppingBag } from 'lucide-react'
 import { useCart } from '../context/CartContext'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const { totalCount, setOpen: openCart } = useCart()   // ← NEW
+  const { user } = useAuth()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -40,9 +42,15 @@ export default function Navbar() {
 
           <div className="nav-icons">
             <button className="nav-icon-btn" aria-label="Search"><Search size={18} /></button>
-            <Link to="/register" className="nav-icon-btn" aria-label="Account">
-              <User size={18} />
-            </Link>
+            {user ? (
+              <Link to="/profile" className="nav-icon-btn nav-avatar" aria-label="Account">
+                {user.name[0].toUpperCase()}
+              </Link>
+            ) : (
+              <Link to="/login" className="nav-icon-btn" aria-label="Account">
+                <User size={18} />
+              </Link>
+            )}
             <button className="nav-icon-btn" aria-label="Wishlist"><Heart size={18} /></button>
 
             {/* ── Cart button — opens drawer ── */}

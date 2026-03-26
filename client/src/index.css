@@ -1079,3 +1079,17 @@ body {
   .footer-main { grid-template-columns: 1fr; }
   .hero-stats { flex-direction: column; gap: 20px; text-align: center; }
 }
+
+.nav-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #1a1a1a;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
