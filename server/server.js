@@ -31,7 +31,7 @@
 // }
 
 // // ── Serve uploaded images as static files ─────────────────
-// // Accessible at: http://localhost:5000/uploads/filename.jpg
+// // Accessible at: http://localhost:5001/uploads/filename.jpg
 // app.use('/uploads', express.static('uploads'))
 // app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
@@ -56,7 +56,7 @@
 // app.use(errorHandler)
 
 // // ── Start Server ──────────────────────────────────────────
-// const PORT = process.env.PORT || 5000
+// const PORT = process.env.PORT || 5001
 // app.listen(PORT, () => {
 //   console.log(`\n🚀 LUNAVE Server running on http://localhost:${PORT}`)
 //   console.log(`📦 Environment: ${process.env.NODE_ENV}`)
@@ -76,6 +76,7 @@ const authRoutes    = require('./routes/authRoutes')
 const productRoutes = require('./routes/productRoutes')
 const cartRoutes    = require('./routes/cartRoutes')
 const orderRoutes   = require('./routes/orderRoutes')
+const wishlistRoutes = require('./routes/wishlistRoutes')
 const { errorHandler, notFound } = require('./middleware/errorHandler')
 
 connectDB()
@@ -104,11 +105,12 @@ app.use('/api/auth',     authRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/cart',     cartRoutes)
 app.use('/api/orders',   orderRoutes)
+app.use('/api/wishlist', wishlistRoutes)
 
 app.use(notFound)
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5001
 app.listen(PORT, () => {
   console.log(`\n🚀 LUNAVE Server running on http://localhost:${PORT}`)
   console.log(`☁️  Cloudinary: https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}`)
