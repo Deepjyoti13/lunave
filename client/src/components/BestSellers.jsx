@@ -1,11 +1,10 @@
-// BestSellers.jsx — updated ProductCard "Add" button to call useCart().addItem()
-// Only the ProductCard and its Add button changed; everything else is identical to your original.
-
+// BestSellers.jsx
 import { useEffect, useRef, useState } from 'react'
 import { Heart, Eye, ShoppingBag } from 'lucide-react'
-import { useCart } from '../context/CartContext'   // ← NEW
+import { useCart } from '../context/CartContext'
+import { useWishlist } from '../context/WishlistContext'
 
-const API_URL = "http://localhost:5000"
+const API_URL = "http://localhost:5001"
 
 const resolveUrl = (url) => {
   if (!url) return null
@@ -14,15 +13,25 @@ const resolveUrl = (url) => {
 }
 
 function ProductCard({ product, delay }) {
-  const [wished, setWished]   = useState(false)
-  const [adding, setAdding]   = useState(false)   // brief visual feedback
-  const { addItem }           = useCart()          // ← NEW
-  const imgUrl = resolveUrl(product.images?.find(i => i.isPrimary)?.url || product.images?.[0]?.url)
+  const [adding, setAdding] = useState(false)
+  const { addItem }         = useCart()
+  const { isWished, addItem: wishAdd, removeItem: wishRemove } = useWishlist()
+
+  const imgUrl  = resolveUrl(product.images?.find(i => i.isPrimary)?.url || product.images?.[0]?.url)
+  const wished  = isWished(product._id)
 
   const handleAdd = async () => {
     setAdding(true)
-    await addItem(product)                         // ← calls context → opens drawer
+    await addItem(product)
     setTimeout(() => setAdding(false), 600)
+  }
+
+  const handleHeart = () => {
+    if (wished) {
+      wishRemove(product._id)
+    } else {
+      wishAdd(product)
+    }
   }
 
   return (
@@ -52,11 +61,14 @@ function ProductCard({ product, delay }) {
         <div className="product-actions">
           <button
             className="product-action-btn"
-            onClick={() => setWished(w => !w)}
-            aria-label="Wishlist"
-            style={{ color: wished ? '#e8b97a' : undefined, borderColor: wished ? 'rgba(201,151,90,0.5)' : undefined }}
+            onClick={handleHeart}
+            aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
+            style={{
+              color:       wished ? '#ecd798' : undefined,
+              borderColor: wished ? 'rgba(236,215,152,0.5)' : undefined,
+            }}
           >
-            <Heart size={14} fill={wished ? 'currentColor' : 'none'} />
+            <Heart size={14} fill={wished ? '#ecd798' : 'none'} />
           </button>
           <button className="product-action-btn" aria-label="Quick view">
             <Eye size={14} />
@@ -69,8 +81,6 @@ function ProductCard({ product, delay }) {
         <p className="product-vol">{product.volumeOptions?.[0]?.size ? `${product.volumeOptions[0].size}ml` : '100ml'}</p>
         <div className="product-footer">
           <span className="product-price">$ {product.basePrice?.toFixed(2)}</span>
-
-          {/* ── Updated Add button ── */}
           <button
             className="add-cart-btn"
             onClick={handleAdd}
