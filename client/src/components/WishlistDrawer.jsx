@@ -1,5 +1,5 @@
 // client/src/components/WishlistDrawer.jsx
-import { useEffect, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { X, Heart, ShoppingBag } from 'lucide-react'
 import { useWishlist } from '../context/WishlistContext'
 import { useCart } from '../context/Cartcontext'
@@ -78,7 +78,6 @@ function WishlistItem({ item }) {
 export default function WishlistDrawer() {
   const { items, totalCount, open, setOpen, clearWishlist } = useWishlist()
   const { addItem: addToCart } = useCart()
-  const overlayRef = useRef(null)
 
   // ESC key close
   useEffect(() => {
@@ -96,18 +95,28 @@ export default function WishlistDrawer() {
 
   const totalValue = items.reduce((s, i) => s + (i.price || 0), 0)
 
+  const [movingAll, setMovingAll] = useState(false)
+
   const handleMoveAllToCart = async () => {
-    for (const item of items) {
-      const productId = item.product?._id ?? item.product
-      await addToCart({
-        _id:       productId,
-        name:      item.name,
-        images:    item.image ? [{ url: item.image }] : [],
-        basePrice: item.price,
-      })
+    if (movingAll) return
+    setMovingAll(true)
+    try {
+      for (const item of items) {
+        const productId = item.product?._id ?? item.product
+        await addToCart({
+          _id:       productId,
+          name:      item.name,
+          images:    item.image ? [{ url: item.image }] : [],
+          basePrice: item.price,
+        })
+      }
+      await clearWishlist()
+      setOpen(false)
+    } catch {
+      // individual addToCart already shows a toast on failure
+    } finally {
+      setMovingAll(false)
     }
-    await clearWishlist()
-    setOpen(false)
   }
 
   return (
@@ -129,7 +138,7 @@ export default function WishlistDrawer() {
           width: min(420px, 100vw);
           z-index: 1301;
           background: #0d0d0d;
-          border-left: 1px solid rgba(236,215,152,0.2);
+          border-left: 1px solid ${AB};
           display: flex; flex-direction: column;
           transform: translateX(100%);
           transition: transform 0.4s cubic-bezier(0.32,0,0.16,1);
@@ -141,7 +150,7 @@ export default function WishlistDrawer() {
         .wdr-header {
           display: flex; align-items: center; justify-content: space-between;
           padding: 28px 28px 20px;
-          border-bottom: 1px solid rgba(236,215,152,0.2);
+          border-bottom: 1px solid ${AB};
           flex-shrink: 0;
         }
         .wdr-header-left { display: flex; align-items: center; gap: 10px; }
@@ -153,15 +162,15 @@ export default function WishlistDrawer() {
         .wdr-count-badge {
           display: inline-flex; align-items: center; justify-content: center;
           width: 20px; height: 20px; border-radius: 50%;
-          background: rgba(236,215,152,0.1);
-          border: 1px solid rgba(236,215,152,0.2);
-          color: #ecd798;
+          background: ${AF};
+          border: 1px solid ${AB};
+          color: ${A};
           font-family: 'Montserrat', sans-serif;
           font-size: 10px; font-weight: 600;
         }
         .wdr-close-btn {
-          background: none; border: 1px solid rgba(236,215,152,0.2);
-          color: rgba(236,215,152,0.45);
+          background: none; border: 1px solid ${AB};
+          color: ${AD};
           width: 34px; height: 34px; border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
           cursor: pointer;
@@ -169,11 +178,11 @@ export default function WishlistDrawer() {
         }
         .wdr-close-btn:hover {
           border-color: rgba(236,215,152,0.5);
-          color: #ecd798;
-          background: rgba(236,215,152,0.1);
+          color: ${A};
+          background: ${AF};
         }
         .wdr-close-btn:focus-visible {
-          outline: 2px solid #ecd798; outline-offset: 2px;
+          outline: 2px solid ${A}; outline-offset: 2px;
         }
 
         /* ── item list ── */
@@ -181,11 +190,11 @@ export default function WishlistDrawer() {
           flex: 1; overflow-y: auto;
           padding: 8px 0;
           scrollbar-width: thin;
-          scrollbar-color: rgba(236,215,152,0.2) transparent;
+          scrollbar-color: ${AB} transparent;
         }
         .wdr-list::-webkit-scrollbar { width: 4px; }
         .wdr-list::-webkit-scrollbar-track { background: transparent; }
-        .wdr-list::-webkit-scrollbar-thumb { background: rgba(236,215,152,0.2); border-radius: 2px; }
+        .wdr-list::-webkit-scrollbar-thumb { background: ${AB}; border-radius: 2px; }
 
         /* ── single item ── */
         .wdr-item {
@@ -195,13 +204,13 @@ export default function WishlistDrawer() {
           transition: background 0.2s;
           flex-wrap: wrap;
         }
-        .wdr-item:hover { background: rgba(236,215,152,0.04); }
+        .wdr-item:hover { background: ${AH}; }
 
         .wdr-thumb {
           width: 76px; height: 92px; flex-shrink: 0;
           border-radius: 4px; overflow: hidden;
           background: #141414;
-          border: 1px solid rgba(236,215,152,0.2);
+          border: 1px solid ${AB};
         }
         .wdr-thumb-img {
           width: 100%; height: 100%;
@@ -244,11 +253,11 @@ export default function WishlistDrawer() {
         .wdr-item-price {
           font-family: 'Cormorant Garamond', 'Georgia', serif;
           font-size: 19px; font-weight: 500;
-          color: #ecd798; letter-spacing: 0.01em;
+          color: ${A}; letter-spacing: 0.01em;
         }
         .wdr-add-cart-btn {
           display: flex; align-items: center; gap: 5px;
-          background: #ecd798; color: #0d0d0d;
+          background: ${A}; color: #0d0d0d;
           border: none; cursor: pointer;
           font-family: 'Montserrat', sans-serif;
           font-size: 9px; font-weight: 700;
@@ -257,7 +266,7 @@ export default function WishlistDrawer() {
           transition: opacity 0.2s, transform 0.15s;
         }
         .wdr-add-cart-btn:hover { opacity: 0.85; transform: translateY(-1px); }
-        .wdr-add-cart-btn:focus-visible { outline: 2px solid #ecd798; outline-offset: 2px; }
+        .wdr-add-cart-btn:focus-visible { outline: 2px solid ${A}; outline-offset: 2px; }
 
         /* ── empty state ── */
         .wdr-empty {
@@ -267,15 +276,15 @@ export default function WishlistDrawer() {
         }
         .wdr-empty-icon {
           width: 64px; height: 64px;
-          border: 1px solid rgba(236,215,152,0.2);
+          border: 1px solid ${AB};
           border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
-          color: rgba(236,215,152,0.45);
+          color: ${AD};
         }
         .wdr-empty em {
           font-family: 'Cormorant Garamond', 'Georgia', serif;
           font-size: 22px; font-style: italic;
-          color: rgba(236,215,152,0.45);
+          color: ${AD};
           display: block; margin-bottom: 4px;
         }
         .wdr-empty p {
@@ -289,7 +298,7 @@ export default function WishlistDrawer() {
         /* ── footer ── */
         .wdr-footer {
           flex-shrink: 0;
-          border-top: 1px solid rgba(236,215,152,0.2);
+          border-top: 1px solid ${AB};
           padding: 22px 28px 28px;
           background: #0a0a0a;
         }
@@ -304,11 +313,11 @@ export default function WishlistDrawer() {
         }
         .wdr-footer-total {
           font-family: 'Cormorant Garamond', 'Georgia', serif;
-          font-size: 22px; font-weight: 500; color: #ecd798;
+          font-size: 22px; font-weight: 500; color: ${A};
         }
         .wdr-move-all-btn {
           width: 100%;
-          background: #ecd798; color: #0d0d0d;
+          background: ${A}; color: #0d0d0d;
           border: none; cursor: pointer;
           font-family: 'Montserrat', sans-serif;
           font-size: 10px; font-weight: 700;
@@ -318,10 +327,10 @@ export default function WishlistDrawer() {
         }
         .wdr-move-all-btn:hover {
           opacity: 0.88;
-          box-shadow: 0 8px 28px rgba(236,215,152,0.2);
+          box-shadow: 0 8px 28px ${AB};
           transform: translateY(-1px);
         }
-        .wdr-move-all-btn:focus-visible { outline: 2px solid #ecd798; outline-offset: 2px; }
+        .wdr-move-all-btn:focus-visible { outline: 2px solid ${A}; outline-offset: 2px; }
         .wdr-clear-btn {
           width: 100%; margin-top: 10px;
           background: none; border: none;
@@ -344,7 +353,6 @@ export default function WishlistDrawer() {
 
       {/* overlay */}
       <div
-        ref={overlayRef}
         className={`wdr-overlay${open ? ' open' : ''}`}
         onClick={() => setOpen(false)}
         aria-hidden="true"
@@ -404,8 +412,13 @@ export default function WishlistDrawer() {
                 ₹ {totalValue.toLocaleString('en-IN')}
               </span>
             </div>
-            <button className="wdr-move-all-btn" onClick={handleMoveAllToCart}>
-              Move All to Cart
+            <button
+              className="wdr-move-all-btn"
+              onClick={handleMoveAllToCart}
+              disabled={movingAll}
+              style={movingAll ? { opacity: 0.6, cursor: 'not-allowed', transform: 'none' } : undefined}
+            >
+              {movingAll ? 'Moving...' : 'Move All to Cart'}
             </button>
             <button className="wdr-clear-btn" onClick={clearWishlist}>
               Clear wishlist
