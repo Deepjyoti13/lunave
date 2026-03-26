@@ -21,7 +21,11 @@ const wishlistSchema = new mongoose.Schema(
     },
     items: [wishlistItemSchema],
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON:   { virtuals: true },
+    toObject: { virtuals: true },
+  }
 )
 
 module.exports = mongoose.model('Wishlist', wishlistSchema)
