@@ -12,7 +12,7 @@ router.use(protect)
 
 router.get(   '/',            getWishlist)         // GET    /api/wishlist
 router.post(  '/',            addToWishlist)       // POST   /api/wishlist
-router.delete('/:productId',  removeFromWishlist)  // DELETE /api/wishlist/:productId
 router.delete('/',            clearWishlist)       // DELETE /api/wishlist
+router.delete('/:productId',  removeFromWishlist)  // DELETE /api/wishlist/:productId
 
 module.exports = router
