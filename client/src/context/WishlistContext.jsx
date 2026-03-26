@@ -26,6 +26,7 @@ export function WishlistProvider({ children }) {
       const res  = await fetch(`${API_URL}/api/wishlist`, {
         headers: { Authorization: `Bearer ${token}` },
       })
+      if (!res.ok) throw new Error(`Request failed: ${res.status}`)
       const data = await res.json()
       if (data.success) setItems(data.wishlist.items)
       else throw new Error(data.message)
@@ -40,7 +41,10 @@ export function WishlistProvider({ children }) {
 
   // ── isWished ────────────────────────────────────────────────────────────
   const isWished = useCallback(
-    (productId) => items.some(item => item.product === productId || item.product?._id === productId),
+    (productId) => items.some(item => {
+      const id = item.product?._id ?? item.product
+      return id?.toString() === productId
+    }),
     [items]
   )
 
@@ -59,6 +63,7 @@ export function WishlistProvider({ children }) {
         },
         body: JSON.stringify({ productId: product._id }),
       })
+      if (!res.ok) throw new Error(`Request failed: ${res.status}`)
       const data = await res.json()
       if (data.success) {
         setItems(data.wishlist.items)
@@ -82,6 +87,7 @@ export function WishlistProvider({ children }) {
         method:  'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       })
+      if (!res.ok) throw new Error(`Request failed: ${res.status}`)
       const data = await res.json()
       if (data.success) {
         setItems(data.wishlist.items)
@@ -102,6 +108,7 @@ export function WishlistProvider({ children }) {
         method:  'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       })
+      if (!res.ok) throw new Error(`Request failed: ${res.status}`)
       const data = await res.json()
       if (data.success) {
         setItems([])
