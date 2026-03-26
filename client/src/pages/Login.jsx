@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import toast from 'react-hot-toast'
 
@@ -6,6 +7,7 @@ const API_URL = 'http://localhost:5000'
 
 export default function Login() {
   const { login } = useAuth()
+  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -23,7 +25,8 @@ export default function Login() {
 
       if (data.success) {
         login(data)
-        toast.success('Login successful 🎉')
+        toast.success('Welcome back!')
+        navigate('/')
       } else {
         throw new Error(data.message)
       }
@@ -36,19 +39,16 @@ export default function Login() {
   return (
     <form onSubmit={handleSubmit}>
       <h2>Login</h2>
-
       <input
         type="email"
         placeholder="Email"
         onChange={(e) => setEmail(e.target.value)}
       />
-
       <input
         type="password"
         placeholder="Password"
         onChange={(e) => setPassword(e.target.value)}
       />
-
       <button type="submit">Login</button>
     </form>
   )
