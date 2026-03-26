@@ -1,0 +1,219 @@
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#0b0b0b;
+  overflow:hidden;
+}
+
+.hero-content{
+  width:100%;
+  max-width:1400px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  gap:40px;
+  padding:40px;
+}
+
+/* TEXT */
+
+.hero-tag{
+  color:#c9975a;
+  letter-spacing:3px;
+  margin-bottom:20px;
+}
+
+.hero-title{
+  font-size:60px;
+  color:white;
+  line-height:1.1;
+}
+
+.hero-title em{
+  color:#c9975a;
+}
+
+.hero-subtitle{
+  color:#cfcfcf;
+  margin-top:20px;
+  max-width:420px;
+}
+
+.hero-buttons{
+  margin-top:30px;
+  display:flex;
+  gap:15px;
+}
+
+.btn-primary{
+  background:#c9975a;
+  color:white;
+  border:none;
+  padding:12px 26px;
+  cursor:pointer;
+}
+
+.btn-ghost{
+  background:transparent;
+  border:1px solid #c9975a;
+  color:#c9975a;
+  padding:12px 26px;
+}
+
+/* STAGE */
+
+.hero-stage{
+  position:relative;
+  width:520px;
+  height:520px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* BOTTLE */
+
+.hero-bottle{
+  position:absolute;
+  width:230px;
+  z-index:3;
+  animation:floatBottle 6s ease-in-out infinite;
+}
+
+/* WATER SVG */
+
+.water-svg{
+  position:absolute;
+  width:100%;
+  height:100%;
+  z-index:1;
+}
+
+/* SPLASH */
+
+.water-splash-left,
+.water-splash-right{
+  transform-origin:300px 520px;
+  animation:splashGrow 3s ease-out infinite;
+}
+
+.water-splash-right{
+  animation-delay:.2s;
+}
+
+/* WATER POOL */
+
+.water-pool{
+  fill:#8fbfff;
+  opacity:.4;
+}
+
+/* RIPPLE */
+
+.ripple{
+  fill:none;
+  stroke:#a8cfff;
+  stroke-width:2;
+  opacity:.6;
+}
+
+.r1{animation:ripple 3s infinite}
+.r2{animation:ripple 3s .4s infinite}
+.r3{animation:ripple 3s .8s infinite}
+
+/* DROPLETS */
+
+.drop{
+  fill:#cfe6ff;
+  opacity:.8;
+  animation:dropFloat 3s ease-out infinite;
+}
+
+.d2{animation-delay:.2s}
+.d3{animation-delay:.4s}
+.d4{animation-delay:.6s}
+
+/* ANIMATIONS */
+
+@keyframes splashGrow{
+
+  0%{
+    transform:scale(.6) translateY(40px);
+    opacity:0;
+  }
+
+  30%{
+    opacity:1;
+  }
+
+  60%{
+    transform:scale(1.05) translateY(-10px);
+  }
+
+  100%{
+    transform:scale(1.15) translateY(-40px);
+    opacity:0;
+  }
+
+}
+
+@keyframes ripple{
+
+  0%{
+    transform:scale(.6);
+    opacity:.8;
+  }
+
+  100%{
+    transform:scale(1.6);
+    opacity:0;
+  }
+
+}
+
+@keyframes dropFloat{
+
+  0%{
+    transform:translateY(40px) scale(.5);
+    opacity:0;
+  }
+
+  40%{
+    opacity:1;
+  }
+
+  100%{
+    transform:translateY(-80px) scale(.8);
+    opacity:0;
+  }
+
+}
+
+@keyframes floatBottle{
+
+  0%,100%{
+    transform:translateY(0);
+  }
+
+  50%{
+    transform:translateY(-12px);
+  }
+
+}
+
+/* RESPONSIVE */
+
+@media (max-width:768px){
+
+.hero-content{
+  grid-template-columns:1fr;
+  text-align:center;
+}
+
+.hero-stage{
+  margin-top:40px;
+}
+
+}
