@@ -162,14 +162,28 @@
   font-weight: 300;
   outline: none;
   transition: border-color 0.3s;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .auth-input:focus {
   border-bottom-color: var(--gold);
 }
 
+.auth-input:focus-visible {
+  box-shadow: 0 2px 0 0 var(--gold);
+}
+
 .auth-input::placeholder {
   color: rgba(245, 240, 235, 0.15);
+}
+
+.auth-input:-webkit-autofill,
+.auth-input:-webkit-autofill:hover,
+.auth-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--black) inset;
+  -webkit-text-fill-color: var(--white);
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .auth-submit {
@@ -204,6 +218,15 @@
 .auth-submit:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 32px var(--gold-glow);
+}
+
+.auth-submit:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.auth-submit:active {
+  transform: scale(0.98);
 }
 
 .auth-switch {
