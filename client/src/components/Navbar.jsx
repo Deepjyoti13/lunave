@@ -1,16 +1,16 @@
-// Navbar.jsx — updated to wire cart icon → CartDrawer
-// Changes from your original: import useCart, update ShoppingBag button, live badge
-
+// Navbar.jsx
 import { useState, useEffect } from 'react'
 import { Search, User, Heart, ShoppingBag } from 'lucide-react'
 import { useCart } from '../context/CartContext'
+import { useWishlist } from '../context/WishlistContext'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
-  const { totalCount, setOpen: openCart } = useCart()   // ← NEW
+  const { totalCount, setOpen: openCart }       = useCart()
+  const { totalCount: wishCount, setOpen: openWishlist } = useWishlist()
   const { user } = useAuth()
 
   useEffect(() => {
@@ -44,24 +44,39 @@ export default function Navbar() {
             <button className="nav-icon-btn" aria-label="Search"><Search size={18} /></button>
             {user ? (
               <Link to="/profile" className="nav-icon-btn nav-avatar" aria-label="Account">
-                {user.name[0].toUpperCase()}
+                {(user.name?.[0] ?? '?').toUpperCase()}
               </Link>
             ) : (
-              <Link to="/login" className="nav-icon-btn" aria-label="Account">
+              <Link to="/register" className="nav-icon-btn" aria-label="Account">
                 <User size={18} />
               </Link>
             )}
-            <button className="nav-icon-btn" aria-label="Wishlist"><Heart size={18} /></button>
+            {/* ── Wishlist button ── */}
+            <button
+              className="nav-icon-btn"
+              aria-label="Wishlist"
+              style={{ position: 'relative' }}
+              onClick={() => openWishlist(true)}
+            >
+              <Heart
+                size={18}
+                fill={wishCount > 0 ? '#ecd798' : 'none'}
+                style={{ color: wishCount > 0 ? '#ecd798' : undefined }}
+              />
+              {wishCount > 0 && (
+                <span className="cart-badge">{wishCount > 99 ? '99+' : wishCount}</span>
+              )}
+            </button>
 
-            {/* ── Cart button — opens drawer ── */}
+            {/* ── Cart button ── */}
             <button
               className="nav-icon-btn"
               aria-label="Cart"
               style={{ position: 'relative' }}
-              onClick={() => openCart(true)}   // ← opens CartDrawer
+              onClick={() => openCart(true)}
             >
               <ShoppingBag size={18} />
-              {totalCount > 0 && (              // ← live count from context
+              {totalCount > 0 && (
                 <span className="cart-badge">{totalCount > 99 ? '99+' : totalCount}</span>
               )}
             </button>
