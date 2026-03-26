@@ -100,6 +100,7 @@ export default function WishlistDrawer() {
   const handleMoveAllToCart = async () => {
     if (movingAll) return
     setMovingAll(true)
+    setOpen(false)   // close wishlist before cart opens
     try {
       for (const item of items) {
         const productId = item.product?._id ?? item.product
@@ -111,7 +112,6 @@ export default function WishlistDrawer() {
         })
       }
       await clearWishlist()
-      setOpen(false)
     } catch {
       // individual addToCart already shows a toast on failure
     } finally {

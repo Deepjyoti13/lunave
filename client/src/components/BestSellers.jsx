@@ -1,7 +1,7 @@
 // BestSellers.jsx
 import { useEffect, useRef, useState } from 'react'
 import { Heart, Eye, ShoppingBag } from 'lucide-react'
-import { useCart } from '../context/CartContext'
+import { useCart } from '../context/Cartcontext'
 import { useWishlist } from '../context/WishlistContext'
 
 const API_URL = "http://localhost:5001"

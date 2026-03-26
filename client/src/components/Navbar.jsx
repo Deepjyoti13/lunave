@@ -1,7 +1,7 @@
 // Navbar.jsx
 import { useState, useEffect } from 'react'
 import { Search, User, Heart, ShoppingBag } from 'lucide-react'
-import { useCart } from '../context/CartContext'
+import { useCart } from '../context/Cartcontext'
 import { useWishlist } from '../context/WishlistContext'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
