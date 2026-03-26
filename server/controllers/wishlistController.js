@@ -20,6 +20,9 @@ const addToWishlist = async (req, res, next) => {
   try {
     const { productId } = req.body
 
+    if (!productId)
+      return res.status(400).json({ success: false, message: 'productId is required' })
+
     const product = await Product.findById(productId)
     if (!product || !product.isActive)
       return res.status(404).json({ success: false, message: 'Product not found' })
@@ -39,9 +42,10 @@ const addToWishlist = async (req, res, next) => {
         price:   product.basePrice,
       })
       await wishlist.save()
+      return res.status(201).json({ success: true, wishlist })
     }
 
-    res.status(201).json({ success: true, wishlist })
+    res.json({ success: true, wishlist })
   } catch (err) {
     next(err)
   }
@@ -54,10 +58,13 @@ const removeFromWishlist = async (req, res, next) => {
     if (!wishlist)
       return res.status(404).json({ success: false, message: 'Wishlist not found' })
 
+    const originalLength = wishlist.items.length
     wishlist.items = wishlist.items.filter(
       item => item.product.toString() !== req.params.productId
     )
-    await wishlist.save()
+    if (wishlist.items.length < originalLength) {
+      await wishlist.save()
+    }
 
     res.json({ success: true, wishlist })
   } catch (err) {
