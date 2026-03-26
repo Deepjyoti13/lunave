@@ -60,7 +60,7 @@ export default function Profile() {
       {/* Hero */}
       <div className="profile-hero">
         <div className="profile-avatar">
-          {user.name[0].toUpperCase()}
+          {(user.name?.[0] ?? '?').toUpperCase()}
         </div>
         <div className="profile-info">
           <div className="profile-name">{user.name}</div>
