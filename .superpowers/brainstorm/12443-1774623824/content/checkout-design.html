@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout Design — Lunave</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:wght@400;500&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --dark: #111111;
+    --dark-card: #161616;
+    --dark-border: #222222;
+    --gold: #c9975a;
+    --gold-light: #e8b97a;
+    --gold-dark: #a07040;
+    --gold-glow: rgba(201,151,90,0.25);
+    --white: #f5f0eb;
+    --white-dim: rgba(245,240,235,0.65);
+    --white-faint: rgba(245,240,235,0.12);
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-heading: 'Playfair Display', Georgia, serif;
+    --font-body: 'Montserrat', sans-serif;
+  }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-weight: 300;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── NAVBAR strip ── */
+  .co-nav {
+    height: 64px;
+    background: rgba(10,10,10,0.95);
+    border-bottom: 1px solid rgba(201,151,90,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(20px,5vw,60px);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .co-nav-brand {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    color: var(--gold-light);
+  }
+  .co-nav-secure {
+    display: flex; align-items: center; gap: 6px;
+    font-family: var(--font-body);
+    font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(201,151,90,0.5);
+  }
+  .co-nav-secure svg { width: 12px; height: 12px; }
+
+  /* ── STEP BREADCRUMB ── */
+  .co-breadcrumb {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0; padding: 20px 0 0;
+  }
+  .co-step {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-body);
+    font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  .co-step-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 600;
+    transition: all 0.3s;
+  }
+  .co-step.active .co-step-num {
+    background: var(--gold); color: var(--black);
+  }
+  .co-step.done .co-step-num {
+    background: rgba(201,151,90,0.2);
+    border: 1px solid rgba(201,151,90,0.4);
+    color: var(--gold);
+  }
+  .co-step.inactive .co-step-num {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.25);
+  }
+  .co-step.active .co-step-label { color: var(--gold); }
+  .co-step.done .co-step-label { color: rgba(201,151,90,0.6); }
+  .co-step.inactive .co-step-label { color: rgba(255,255,255,0.2); }
+  .co-step-line {
+    width: 48px; height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 0 4px;
+  }
+
+  /* ── MAIN GRID ── */
+  .co-page { max-width: 1100px; margin: 0 auto; padding: 32px clamp(16px,4vw,48px) 80px; }
+  .co-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* ── SECTION BLOCKS ── */
+  .co-section {
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .co-section:focus-within { border-color: rgba(201,151,90,0.3); }
+  .co-section-head {
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid var(--dark-border);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .co-section-num {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: rgba(201,151,90,0.12);
+    border: 1px solid rgba(201,151,90,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-body);
+    font-size: 9px; font-weight: 600;
+    color: var(--gold); flex-shrink: 0;
+  }
+  .co-section-title {
+    font-family: var(--font-display);
+    font-size: 17px; font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--white);
+  }
+  .co-section-body { padding: 20px 24px; }
+
+  /* ── FORM FIELDS ── */
+  .co-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .co-field-row.single { grid-template-columns: 1fr; }
+  .co-field-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+  .co-field { display: flex; flex-direction: column; gap: 6px; }
+  .co-label {
+    font-family: var(--font-body);
+    font-size: 9px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(245,240,235,0.45);
+  }
+  .co-input {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 2px;
+    padding: 12px 14px;
+    font-family: var(--font-body);
+    font-size: 13px; font-weight: 300;
+    color: var(--white);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    width: 100%;
+  }
+  .co-input::placeholder { color: rgba(245,240,235,0.2); }
+  .co-input:focus {
+    border-color: rgba(201,151,90,0.5);
+    box-shadow: 0 0 0 3px rgba(201,151,90,0.07);
+    background: rgba(201,151,90,0.03);
+  }
+  .co-select {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 2px;
+    padding: 12px 14px;
+    font-family: var(--font-body);
+    font-size: 13px; font-weight: 300;
+    color: var(--white);
+    outline: none;
+    width: 100%;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(201,151,90,0.5)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+  .co-select option { background: #161616; color: var(--white); }
+  .co-select:focus { border-color: rgba(201,151,90,0.5); box-shadow: 0 0 0 3px rgba(201,151,90,0.07); }
+
+  /* ── SHIPPING OPTIONS ── */
+  .co-ship-options { display: flex; flex-direction: column; gap: 10px; }
+  .co-ship-opt {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+  }
+  .co-ship-opt.selected {
+    border-color: rgba(201,151,90,0.45);
+    background: rgba(201,151,90,0.04);
+  }
+  .co-ship-opt:hover { border-color: rgba(201,151,90,0.25); }
+  .co-ship-opt-left { display: flex; align-items: center; gap: 12px; }
+  .co-radio {
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 1px solid rgba(201,151,90,0.3);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .co-ship-opt.selected .co-radio::after {
+    content: '';
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--gold);
+    display: block;
+  }
+  .co-ship-name {
+    font-family: var(--font-body);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--white-dim);
+  }
+  .co-ship-days {
+    font-family: var(--font-body);
+    font-size: 10px; color: rgba(245,240,235,0.3);
+    letter-spacing: 0.04em; margin-top: 2px;
+  }
+  .co-ship-price {
+    font-family: var(--font-display);
+    font-size: 16px; color: var(--gold);
+  }
+
+  /* ── PAYMENT LOGOS ── */
+  .co-pay-logos {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 16px; flex-wrap: wrap;
+  }
+  .co-pay-logo {
+    height: 28px; padding: 4px 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-body);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.05em;
+    color: rgba(245,240,235,0.5);
+    transition: border-color 0.2s;
+  }
+  .co-pay-logo:hover { border-color: rgba(201,151,90,0.3); }
+  .co-pay-logo.visa { color: #1a73e8; font-size: 13px; font-style: italic; }
+  .co-pay-logo.mc { color: transparent; position: relative; width: 38px; }
+  .co-pay-logo.mc::before, .co-pay-logo.mc::after {
+    content: ''; position: absolute;
+    width: 18px; height: 18px; border-radius: 50%;
+  }
+  .co-pay-logo.mc::before { background: #eb001b; left: 6px; }
+  .co-pay-logo.mc::after { background: #f79e1b; right: 6px; mix-blend-mode: screen; }
+  .co-pay-logo.amex { color: #2671c4; font-size: 9px; font-weight: 800; }
+  .co-pay-logo.paypal { font-size: 10px; }
+  .co-pay-logo.paypal span:first-child { color: #003087; }
+  .co-pay-logo.paypal span:last-child { color: #009cde; }
+  .co-pay-logo.apple { font-size: 12px; color: #f5f0eb; }
+  .co-pay-logo.gpay { font-size: 10px; }
+  .co-pay-logo.gpay .g { color: #4285F4; }
+  .co-pay-logo.gpay .p { color: #34A853; }
+  .co-pay-logo.gpay .a { color: #FBBC05; }
+  .co-pay-logo.gpay .y { color: #EA4335; }
+
+  /* card number with card type icon */
+  .co-card-input-wrap { position: relative; }
+  .co-card-icon {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    font-size: 10px; color: rgba(201,151,90,0.4);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── PROMO CODE ── */
+  .co-promo-row {
+    display: flex; gap: 8px; margin-top: 4px;
+  }
+  .co-promo-input {
+    flex: 1;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 2px;
+    padding: 10px 14px;
+    font-family: var(--font-body);
+    font-size: 12px; font-weight: 300;
+    color: var(--white); outline: none;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    transition: border-color 0.2s;
+  }
+  .co-promo-input::placeholder { color: rgba(245,240,235,0.2); text-transform: none; }
+  .co-promo-input:focus { border-color: rgba(201,151,90,0.4); }
+  .co-promo-btn {
+    background: transparent;
+    border: 1px solid rgba(201,151,90,0.3);
+    color: rgba(201,151,90,0.8);
+    padding: 10px 18px;
+    font-family: var(--font-body);
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    border-radius: 2px; cursor: pointer;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  .co-promo-btn:hover { background: rgba(201,151,90,0.08); border-color: rgba(201,151,90,0.6); color: var(--gold); }
+
+  /* ── ORDER SUMMARY SIDEBAR ── */
+  .co-summary {
+    position: sticky; top: 84px;
+    background: #0d0d0d;
+    border: 1px solid rgba(201,151,90,0.12);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .co-summary-head {
+    padding: 18px 22px 16px;
+    border-bottom: 1px solid rgba(201,151,90,0.08);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .co-summary-title {
+    font-family: var(--font-display);
+    font-size: 17px; font-weight: 400;
+    letter-spacing: 0.06em; color: var(--white);
+  }
+  .co-summary-count {
+    font-family: var(--font-body);
+    font-size: 9px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(201,151,90,0.5);
+  }
+  .co-summary-items { padding: 12px 0; }
+  .co-sum-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 22px;
+    transition: background 0.2s;
+  }
+  .co-sum-item:hover { background: rgba(201,151,90,0.02); }
+  .co-sum-thumb {
+    width: 52px; height: 62px; flex-shrink: 0;
+    border-radius: 2px; overflow: hidden;
+    background: #161616;
+    border: 1px solid rgba(201,151,90,0.1);
+    position: relative;
+  }
+  .co-sum-thumb-img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .co-sum-qty-badge {
+    position: absolute; top: -6px; right: -6px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-body);
+    font-size: 9px; font-weight: 700; color: var(--black);
+  }
+  .co-sum-info { flex: 1; min-width: 0; }
+  .co-sum-name {
+    font-family: var(--font-body);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: rgba(245,240,235,0.8);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .co-sum-vol {
+    font-family: var(--font-body);
+    font-size: 10px; color: rgba(201,151,90,0.45);
+    letter-spacing: 0.05em; margin-top: 2px;
+  }
+  .co-sum-price {
+    font-family: var(--font-display);
+    font-size: 16px; color: var(--gold);
+    white-space: nowrap;
+  }
+
+  /* totals */
+  .co-summary-totals {
+    padding: 16px 22px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .co-tot-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 8px;
+    font-family: var(--font-body);
+    font-size: 10px; letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+  .co-tot-row span:last-child { color: rgba(255,255,255,0.5); font-size: 11px; }
+  .co-tot-row.free span:last-child { color: rgba(201,151,90,0.7); }
+  .co-grand-total {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-top: 14px; margin-top: 8px;
+    border-top: 1px solid rgba(201,151,90,0.1);
+  }
+  .co-grand-label {
+    font-family: var(--font-body);
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: rgba(255,255,255,0.5);
+  }
+  .co-grand-amount {
+    font-family: var(--font-display);
+    font-size: 30px; font-weight: 500; color: var(--gold);
+    letter-spacing: 0.01em;
+  }
+
+  /* promo in sidebar */
+  .co-summary-promo { padding: 0 22px 16px; }
+
+  /* security badges */
+  .co-security {
+    padding: 14px 22px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px; flex-wrap: wrap;
+  }
+  .co-badge {
+    display: flex; align-items: center; gap: 5px;
+    font-family: var(--font-body);
+    font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(245,240,235,0.25);
+  }
+  .co-badge svg { width: 10px; height: 10px; color: rgba(201,151,90,0.35); }
+
+  /* ── PLACE ORDER BUTTON ── */
+  .co-place-btn {
+    width: 100%;
+    background: linear-gradient(135deg, rgba(201,151,90,0.95), rgba(180,128,64,0.9));
+    border: 1px solid rgba(201,151,90,0.5);
+    color: var(--black);
+    font-family: var(--font-body);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    padding: 18px 24px;
+    border-radius: 2px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    transition: all 0.25s;
+    margin-top: 20px;
+    position: relative; overflow: hidden;
+  }
+  .co-place-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
+    opacity: 0; transition: opacity 0.25s;
+  }
+  .co-place-btn:hover {
+    box-shadow: 0 8px 32px rgba(201,151,90,0.3);
+    transform: translateY(-1px);
+  }
+  .co-place-btn:hover::before { opacity: 1; }
+  .co-place-btn:active { transform: translateY(0); }
+  .co-place-btn svg { width: 15px; height: 15px; }
+
+  .co-place-note {
+    text-align: center; margin-top: 10px;
+    font-family: var(--font-body);
+    font-size: 9px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(245,240,235,0.2);
+  }
+
+  /* ── MOBILE: collapsible summary accordion ── */
+  .co-mobile-summary { display: none; }
+  .co-accord-btn {
+    width: 100%;
+    background: #0d0d0d;
+    border: 1px solid rgba(201,151,90,0.18);
+    border-radius: 3px;
+    padding: 14px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--gold);
+    transition: background 0.2s;
+    margin-bottom: 20px;
+  }
+  .co-accord-btn:hover { background: rgba(201,151,90,0.04); }
+  .co-accord-right { display: flex; align-items: center; gap: 10px; }
+  .co-accord-total {
+    font-family: var(--font-display);
+    font-size: 20px; color: var(--gold);
+  }
+  .co-accord-arrow {
+    width: 16px; height: 16px;
+    border: 1px solid rgba(201,151,90,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.3s;
+  }
+  .co-accord-btn.open .co-accord-arrow { transform: rotate(180deg); }
+  .co-accord-panel {
+    background: #0d0d0d;
+    border: 1px solid rgba(201,151,90,0.12);
+    border-radius: 3px;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+    margin-bottom: 20px;
+  }
+  .co-accord-panel.open { max-height: 500px; }
+
+  @media (max-width: 768px) {
+    .co-grid { grid-template-columns: 1fr; }
+    .co-sidebar { display: none; }
+    .co-mobile-summary { display: block; }
+    .co-breadcrumb { gap: 0; }
+    .co-step-line { width: 24px; }
+    .co-step-label { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .co-section-body { padding: 16px; }
+    .co-section-head { padding: 14px 16px 12px; }
+    .co-field-row { grid-template-columns: 1fr; }
+    .co-field-row.triple { grid-template-columns: 1fr; }
+  }
+
+  /* ── SECTION LABEL DIVIDER ── */
+  .co-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 20px 0 16px;
+  }
+  .co-divider-line { flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
+  .co-divider-text {
+    font-family: var(--font-body);
+    font-size: 8px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: rgba(245,240,235,0.2);
+  }
+
+  /* ── CHECKBOX ── */
+  .co-check-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-top: 12px; cursor: pointer;
+  }
+  .co-checkbox {
+    width: 16px; height: 16px; flex-shrink: 0;
+    border: 1px solid rgba(201,151,90,0.3);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    background: transparent;
+    transition: all 0.2s;
+  }
+  .co-checkbox.checked {
+    background: rgba(201,151,90,0.15);
+    border-color: rgba(201,151,90,0.6);
+  }
+  .co-check-label {
+    font-family: var(--font-body);
+    font-size: 10px; letter-spacing: 0.06em;
+    color: rgba(245,240,235,0.4);
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--dark); }
+  ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 2px; }
+
+  /* ── PAGE TITLE ── */
+  .co-page-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px,4vw,42px);
+    font-weight: 300; font-style: italic;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .co-page-sub {
+    font-family: var(--font-body);
+    font-size: 9px; letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(201,151,90,0.5);
+    margin-bottom: 28px;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="co-nav">
+  <span class="co-nav-brand">LUNAVE</span>
+  <div class="co-nav-secure">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </svg>
+    Secure Checkout
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="co-breadcrumb">
+  <div class="co-step active">
+    <div class="co-step-num">1</div>
+    <span class="co-step-label">Information</span>
+  </div>
+  <div class="co-step-line"></div>
+  <div class="co-step inactive">
+    <div class="co-step-num">2</div>
+    <span class="co-step-label">Shipping</span>
+  </div>
+  <div class="co-step-line"></div>
+  <div class="co-step inactive">
+    <div class="co-step-num">3</div>
+    <span class="co-step-label">Payment</span>
+  </div>
+</div>
+
+<div class="co-page">
+
+  <!-- MOBILE: collapsible order summary accordion -->
+  <div class="co-mobile-summary">
+    <button class="co-accord-btn" id="accordBtn" onclick="toggleAccord()">
+      <span>Order Summary</span>
+      <div class="co-accord-right">
+        <span class="co-accord-total">$420.00</span>
+        <div class="co-accord-arrow">
+          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </div>
+      </div>
+    </button>
+    <div class="co-accord-panel" id="accordPanel">
+      <div class="co-sum-item">
+        <div class="co-sum-thumb" style="background:linear-gradient(135deg,#1a1517,#2a1f1a);">
+          <div class="co-sum-qty-badge">1</div>
+        </div>
+        <div class="co-sum-info">
+          <div class="co-sum-name">Noir Essence</div>
+          <div class="co-sum-vol">50ml · Eau de Parfum</div>
+        </div>
+        <div class="co-sum-price">$180</div>
+      </div>
+      <div class="co-sum-item">
+        <div class="co-sum-thumb" style="background:linear-gradient(135deg,#141a1a,#1a2828);">
+          <div class="co-sum-qty-badge">1</div>
+        </div>
+        <div class="co-sum-info">
+          <div class="co-sum-name">Velvet Oud</div>
+          <div class="co-sum-vol">100ml · Eau de Parfum</div>
+        </div>
+        <div class="co-sum-price">$240</div>
+      </div>
+      <div class="co-summary-totals">
+        <div class="co-tot-row"><span>Subtotal</span><span>$420.00</span></div>
+        <div class="co-tot-row free"><span>Shipping</span><span>Free</span></div>
+        <div class="co-grand-total">
+          <span class="co-grand-label">Total</span>
+          <span class="co-grand-amount">$420.00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="co-grid">
+
+    <!-- LEFT: FORMS -->
+    <div class="co-forms">
+      <div class="co-page-title">Checkout</div>
+      <div class="co-page-sub">Complete your order</div>
+
+      <!-- 01 Contact -->
+      <div class="co-section">
+        <div class="co-section-head">
+          <div class="co-section-num">01</div>
+          <h2 class="co-section-title">Contact Information</h2>
+        </div>
+        <div class="co-section-body">
+          <div class="co-field-row">
+            <div class="co-field">
+              <label class="co-label">First Name</label>
+              <input class="co-input" type="text" placeholder="Elena">
+            </div>
+            <div class="co-field">
+              <label class="co-label">Last Name</label>
+              <input class="co-input" type="text" placeholder="Moreau">
+            </div>
+          </div>
+          <div class="co-field-row single">
+            <div class="co-field">
+              <label class="co-label">Email Address</label>
+              <input class="co-input" type="email" placeholder="elena@example.com">
+            </div>
+          </div>
+          <div class="co-field-row single">
+            <div class="co-field">
+              <label class="co-label">Phone Number</label>
+              <input class="co-input" type="tel" placeholder="+1 (000) 000-0000">
+            </div>
+          </div>
+          <div class="co-check-row">
+            <div class="co-checkbox checked">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#c9975a" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <span class="co-check-label">Email me with news and exclusive offers</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 Shipping Address -->
+      <div class="co-section">
+        <div class="co-section-head">
+          <div class="co-section-num">02</div>
+          <h2 class="co-section-title">Shipping Address</h2>
+        </div>
+        <div class="co-section-body">
+          <div class="co-field-row single">
+            <div class="co-field">
+              <label class="co-label">Address Line 1</label>
+              <input class="co-input" type="text" placeholder="Street address">
+            </div>
+          </div>
+          <div class="co-field-row single">
+            <div class="co-field">
+              <label class="co-label">Address Line 2 <span style="opacity:0.4">(optional)</span></label>
+              <input class="co-input" type="text" placeholder="Apartment, suite, unit, etc.">
+            </div>
+          </div>
+          <div class="co-field-row">
+            <div class="co-field">
+              <label class="co-label">City</label>
+              <input class="co-input" type="text" placeholder="Paris">
+            </div>
+            <div class="co-field">
+              <label class="co-label">State / Province</label>
+              <input class="co-input" type="text" placeholder="Île-de-France">
+            </div>
+          </div>
+          <div class="co-field-row">
+            <div class="co-field">
+              <label class="co-label">ZIP / Postal Code</label>
+              <input class="co-input" type="text" placeholder="75001">
+            </div>
+            <div class="co-field">
+              <label class="co-label">Country</label>
+              <select class="co-select">
+                <option>France</option>
+                <option>United States</option>
+                <option>United Kingdom</option>
+                <option>UAE</option>
+                <option>India</option>
+              </select>
+            </div>
+          </div>
+          <div class="co-check-row">
+            <div class="co-checkbox">
+            </div>
+            <span class="co-check-label">Save this address for future orders</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03 Shipping Method -->
+      <div class="co-section">
+        <div class="co-section-head">
+          <div class="co-section-num">03</div>
+          <h2 class="co-section-title">Shipping Method</h2>
+        </div>
+        <div class="co-section-body">
+          <div class="co-ship-options">
+            <div class="co-ship-opt selected">
+              <div class="co-ship-opt-left">
+                <div class="co-radio"></div>
+                <div>
+                  <div class="co-ship-name">Standard Delivery</div>
+                  <div class="co-ship-days">5 – 8 business days</div>
+                </div>
+              </div>
+              <div class="co-ship-price" style="color:rgba(201,151,90,0.7);font-size:13px;letter-spacing:0.05em;font-family:var(--font-body);font-weight:500;">Free</div>
+            </div>
+            <div class="co-ship-opt">
+              <div class="co-ship-opt-left">
+                <div class="co-radio"></div>
+                <div>
+                  <div class="co-ship-name">Express Delivery</div>
+                  <div class="co-ship-days">2 – 3 business days</div>
+                </div>
+              </div>
+              <div class="co-ship-price">$18</div>
+            </div>
+            <div class="co-ship-opt">
+              <div class="co-ship-opt-left">
+                <div class="co-radio"></div>
+                <div>
+                  <div class="co-ship-name">Overnight</div>
+                  <div class="co-ship-days">Next business day</div>
+                </div>
+              </div>
+              <div class="co-ship-price">$38</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04 Payment -->
+      <div class="co-section">
+        <div class="co-section-head">
+          <div class="co-section-num">04</div>
+          <h2 class="co-section-title">Payment</h2>
+        </div>
+        <div class="co-section-body">
+          <!-- Static payment logos -->
+          <div class="co-pay-logos">
+            <div class="co-pay-logo visa">VISA</div>
+            <div class="co-pay-logo mc"></div>
+            <div class="co-pay-logo amex">AMEX</div>
+            <div class="co-pay-logo paypal"><span>Pay</span><span>Pal</span></div>
+            <div class="co-pay-logo apple">&#63743; Pay</div>
+            <div class="co-pay-logo gpay"><span class="g">G</span><span class="p">o</span><span class="a">o</span><span class="y">g</span><span style="color:#4285F4">le</span>&nbsp;Pay</div>
+          </div>
+          <div class="co-divider">
+            <div class="co-divider-line"></div>
+            <div class="co-divider-text">Card Details</div>
+            <div class="co-divider-line"></div>
+          </div>
+          <div class="co-field-row single">
+            <div class="co-field">
+              <label class="co-label">Name on Card</label>
+              <input class="co-input" type="text" placeholder="Elena Moreau">
+            </div>
+          </div>
+          <div class="co-field-row single">
+            <div class="co-field">
+              <label class="co-label">Card Number</label>
+              <div class="co-card-input-wrap">
+                <input class="co-input" type="text" placeholder="0000  0000  0000  0000" style="padding-right:54px;">
+                <span class="co-card-icon">•••• </span>
+              </div>
+            </div>
+          </div>
+          <div class="co-field-row triple">
+            <div class="co-field">
+              <label class="co-label">Expiry Month</label>
+              <select class="co-select">
+                <option value="">MM</option>
+                <option>01</option><option>02</option><option>03</option>
+                <option>04</option><option>05</option><option>06</option>
+                <option>07</option><option>08</option><option>09</option>
+                <option>10</option><option>11</option><option>12</option>
+              </select>
+            </div>
+            <div class="co-field">
+              <label class="co-label">Expiry Year</label>
+              <select class="co-select">
+                <option value="">YYYY</option>
+                <option>2026</option><option>2027</option><option>2028</option>
+                <option>2029</option><option>2030</option><option>2031</option>
+              </select>
+            </div>
+            <div class="co-field">
+              <label class="co-label">CVV</label>
+              <input class="co-input" type="text" placeholder="•••" maxlength="4">
+            </div>
+          </div>
+          <div class="co-check-row" style="margin-top:14px;">
+            <div class="co-checkbox">
+            </div>
+            <span class="co-check-label">Save card for future purchases</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PLACE ORDER -->
+      <button class="co-place-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        Place Order
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </button>
+      <p class="co-place-note">Your personal data will be used to process your order</p>
+
+    </div><!-- /co-forms -->
+
+    <!-- RIGHT: STICKY ORDER SUMMARY -->
+    <div class="co-sidebar">
+      <div class="co-summary">
+        <div class="co-summary-head">
+          <span class="co-summary-title">Your Order</span>
+          <span class="co-summary-count">2 Items</span>
+        </div>
+
+        <div class="co-summary-items">
+          <div class="co-sum-item">
+            <div class="co-sum-thumb" style="background:linear-gradient(135deg,#1a1517,#2a1f1a);">
+              <div class="co-sum-qty-badge">1</div>
+            </div>
+            <div class="co-sum-info">
+              <div class="co-sum-name">Noir Essence</div>
+              <div class="co-sum-vol">50ml · Eau de Parfum</div>
+            </div>
+            <div class="co-sum-price">$180</div>
+          </div>
+          <div class="co-sum-item">
+            <div class="co-sum-thumb" style="background:linear-gradient(135deg,#141a1a,#1a2828);">
+              <div class="co-sum-qty-badge">1</div>
+            </div>
+            <div class="co-sum-info">
+              <div class="co-sum-name">Velvet Oud</div>
+              <div class="co-sum-vol">100ml · Eau de Parfum</div>
+            </div>
+            <div class="co-sum-price">$240</div>
+          </div>
+        </div>
+
+        <!-- Promo code -->
+        <div class="co-summary-promo">
+          <label class="co-label" style="display:block;margin-bottom:6px;">Promo Code</label>
+          <div class="co-promo-row">
+            <input class="co-promo-input" type="text" placeholder="Enter code">
+            <button class="co-promo-btn">Apply</button>
+          </div>
+        </div>
+
+        <div class="co-summary-totals">
+          <div class="co-tot-row"><span>Subtotal</span><span>$420.00</span></div>
+          <div class="co-tot-row free"><span>Shipping</span><span>Free</span></div>
+          <div class="co-tot-row"><span>Tax</span><span>Calculated at next step</span></div>
+          <div class="co-grand-total">
+            <span class="co-grand-label">Total</span>
+            <span class="co-grand-amount">$420.00</span>
+          </div>
+        </div>
+
+        <div class="co-security">
+          <div class="co-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            SSL Secured
+          </div>
+          <div class="co-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            256-bit Encryption
+          </div>
+          <div class="co-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            PCI Compliant
+          </div>
+        </div>
+      </div>
+    </div><!-- /co-sidebar -->
+
+  </div><!-- /co-grid -->
+</div><!-- /co-page -->
+
+<script>
+function toggleAccord() {
+  const btn = document.getElementById('accordBtn');
+  const panel = document.getElementById('accordPanel');
+  btn.classList.toggle('open');
+  panel.classList.toggle('open');
+}
+
+// Shipping option selection
+document.querySelectorAll('.co-ship-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('.co-ship-opt').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+  });
+});
+
+// Checkbox toggle
+document.querySelectorAll('.co-check-row').forEach(row => {
+  row.addEventListener('click', () => {
+    const cb = row.querySelector('.co-checkbox');
+    cb.classList.toggle('checked');
+    if (cb.classList.contains('checked')) {
+      cb.innerHTML = '<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#c9975a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+    } else {
+      cb.innerHTML = '';
+    }
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<h2>Checkout Page Layout</h2>
+<p class="subtitle">Which layout structure feels right for the Lunave checkout experience?</p>
+
+<div class="cards">
+
+  <!-- Option A: Split Layout -->
+  <div class="card" data-choice="split" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111;padding:16px;min-height:260px;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid #2a2a2a;">
+      <div style="display:flex;gap:10px;height:220px;">
+        <!-- Left column: form -->
+        <div style="flex:1.4;display:flex;flex-direction:column;gap:8px;">
+          <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:3px;padding:8px 10px;">
+            <div style="font-size:8px;color:#c9975a;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;font-family:monospace;">Contact</div>
+            <div style="height:10px;background:#262626;border-radius:2px;margin-bottom:5px;"></div>
+            <div style="height:10px;background:#262626;border-radius:2px;width:80%;"></div>
+          </div>
+          <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:3px;padding:8px 10px;">
+            <div style="font-size:8px;color:#c9975a;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;font-family:monospace;">Shipping Address</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:5px;">
+              <div style="height:10px;background:#262626;border-radius:2px;"></div>
+              <div style="height:10px;background:#262626;border-radius:2px;"></div>
+            </div>
+            <div style="height:10px;background:#262626;border-radius:2px;margin-bottom:5px;"></div>
+            <div style="height:10px;background:#262626;border-radius:2px;width:60%;"></div>
+          </div>
+          <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:3px;padding:8px 10px;">
+            <div style="font-size:8px;color:#c9975a;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;font-family:monospace;">Payment</div>
+            <div style="display:flex;gap:4px;margin-bottom:5px;">
+              <div style="height:14px;width:22px;background:#262626;border-radius:2px;"></div>
+              <div style="height:14px;width:22px;background:#262626;border-radius:2px;"></div>
+              <div style="height:14px;width:22px;background:#262626;border-radius:2px;"></div>
+            </div>
+            <div style="height:10px;background:#262626;border-radius:2px;margin-bottom:5px;"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+              <div style="height:10px;background:#262626;border-radius:2px;"></div>
+              <div style="height:10px;background:#262626;border-radius:2px;"></div>
+            </div>
+          </div>
+          <div style="background:rgba(201,151,90,0.85);border-radius:2px;padding:8px;text-align:center;">
+            <div style="font-size:8px;color:#0a0a0a;letter-spacing:3px;text-transform:uppercase;font-weight:700;font-family:monospace;">Place Order →</div>
+          </div>
+        </div>
+        <!-- Right column: sticky order summary -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:0;background:#0d0d0d;border:1px solid rgba(201,151,90,0.15);border-radius:3px;padding:10px;overflow:hidden;">
+          <div style="font-size:8px;color:#c9975a;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;font-family:monospace;">Order Summary</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+            <div style="width:28px;height:34px;background:#1a1a1a;border-radius:2px;border:1px solid #2a2a2a;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="height:7px;background:#262626;border-radius:2px;margin-bottom:3px;width:80%;"></div>
+              <div style="height:7px;background:#1a1a1a;border-radius:2px;width:50%;"></div>
+            </div>
+            <div style="font-size:9px;color:#c9975a;font-family:monospace;">$180</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+            <div style="width:28px;height:34px;background:#1a1a1a;border-radius:2px;border:1px solid #2a2a2a;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="height:7px;background:#262626;border-radius:2px;margin-bottom:3px;width:70%;"></div>
+              <div style="height:7px;background:#1a1a1a;border-radius:2px;width:40%;"></div>
+            </div>
+            <div style="font-size:9px;color:#c9975a;font-family:monospace;">$240</div>
+          </div>
+          <div style="border-top:1px solid #1e1e1e;padding-top:8px;margin-top:auto;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;">
+              <div style="font-size:7px;color:#888;text-transform:uppercase;letter-spacing:2px;font-family:monospace;">Total</div>
+              <div style="font-size:14px;color:#c9975a;font-family:serif;">$420</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Split — Form + Sticky Summary</h3>
+      <p>Two-column layout. Forms on the left, persistent order summary on the right. Industry standard (used by most luxury brands). Clean, professional feel. Summary is always visible.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Multi-step wizard -->
+  <div class="card" data-choice="wizard" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111;padding:16px;min-height:260px;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid #2a2a2a;">
+      <!-- Step indicator -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:4px;">
+        <div style="display:flex;align-items:center;gap:0;">
+          <div style="width:24px;height:24px;border-radius:50%;background:rgba(201,151,90,0.9);display:flex;align-items:center;justify-content:center;font-size:9px;color:#0a0a0a;font-weight:700;font-family:monospace;">1</div>
+          <div style="font-size:7px;color:#c9975a;letter-spacing:1px;text-transform:uppercase;font-family:monospace;margin:0 4px;">Shipping</div>
+        </div>
+        <div style="width:24px;height:1px;background:#2a2a2a;"></div>
+        <div style="display:flex;align-items:center;gap:0;">
+          <div style="width:24px;height:24px;border-radius:50%;border:1px solid #2a2a2a;display:flex;align-items:center;justify-content:center;font-size:9px;color:#555;font-weight:700;font-family:monospace;">2</div>
+          <div style="font-size:7px;color:#555;letter-spacing:1px;text-transform:uppercase;font-family:monospace;margin:0 4px;">Payment</div>
+        </div>
+        <div style="width:24px;height:1px;background:#2a2a2a;"></div>
+        <div style="display:flex;align-items:center;gap:0;">
+          <div style="width:24px;height:24px;border-radius:50%;border:1px solid #2a2a2a;display:flex;align-items:center;justify-content:center;font-size:9px;color:#555;font-weight:700;font-family:monospace;">3</div>
+          <div style="font-size:7px;color:#555;letter-spacing:1px;text-transform:uppercase;font-family:monospace;margin:0 4px;">Review</div>
+        </div>
+      </div>
+      <!-- Step 1 content -->
+      <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:3px;padding:12px;max-width:340px;margin:0 auto;width:100%;">
+        <div style="font-size:8px;color:#c9975a;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;font-family:monospace;">Step 1 — Shipping Info</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:5px;">
+          <div style="height:12px;background:#262626;border-radius:2px;"></div>
+          <div style="height:12px;background:#262626;border-radius:2px;"></div>
+        </div>
+        <div style="height:12px;background:#262626;border-radius:2px;margin-bottom:5px;"></div>
+        <div style="height:12px;background:#262626;border-radius:2px;margin-bottom:5px;width:60%;"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:10px;">
+          <div style="height:12px;background:#262626;border-radius:2px;"></div>
+          <div style="height:12px;background:#262626;border-radius:2px;"></div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;">
+          <div style="background:rgba(201,151,90,0.85);border-radius:2px;padding:7px 16px;">
+            <div style="font-size:7px;color:#0a0a0a;letter-spacing:2px;text-transform:uppercase;font-weight:700;font-family:monospace;">Continue →</div>
+          </div>
+        </div>
+      </div>
+      <!-- mini order summary strip -->
+      <div style="background:#0d0d0d;border:1px solid rgba(201,151,90,0.1);border-radius:3px;padding:7px 12px;max-width:340px;margin:0 auto;width:100%;display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-size:7px;color:#888;letter-spacing:2px;text-transform:uppercase;font-family:monospace;">2 items</div>
+        <div style="font-size:11px;color:#c9975a;font-family:serif;">$420</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Multi-step Wizard</h3>
+      <p>Step 1: Shipping → Step 2: Payment → Step 3: Review & Confirm. Focused, less overwhelming. Great for mobile. But requires more clicks to complete.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Single-page full scroll -->
+  <div class="card" data-choice="single" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111;padding:16px;min-height:260px;display:flex;flex-direction:column;gap:7px;border-bottom:1px solid #2a2a2a;">
+      <div style="font-size:7px;color:#888;text-align:center;letter-spacing:2px;text-transform:uppercase;font-family:monospace;margin-bottom:2px;">↑ Scroll ↓</div>
+      <!-- Sections stacked -->
+      <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:3px;padding:7px 10px;">
+        <div style="font-size:7px;color:#c9975a;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;font-family:monospace;">01 — Contact</div>
+        <div style="height:8px;background:#262626;border-radius:2px;margin-bottom:3px;"></div>
+        <div style="height:8px;background:#262626;border-radius:2px;width:70%;"></div>
+      </div>
+      <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:3px;padding:7px 10px;">
+        <div style="font-size:7px;color:#c9975a;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;font-family:monospace;">02 — Shipping</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:3px;">
+          <div style="height:8px;background:#262626;border-radius:2px;"></div>
+          <div style="height:8px;background:#262626;border-radius:2px;"></div>
+        </div>
+        <div style="height:8px;background:#262626;border-radius:2px;width:80%;"></div>
+      </div>
+      <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:3px;padding:7px 10px;">
+        <div style="font-size:7px;color:#c9975a;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;font-family:monospace;">03 — Payment</div>
+        <div style="display:flex;gap:3px;margin-bottom:4px;">
+          <div style="height:12px;width:20px;background:#262626;border-radius:2px;"></div>
+          <div style="height:12px;width:20px;background:#262626;border-radius:2px;"></div>
+        </div>
+        <div style="height:8px;background:#262626;border-radius:2px;"></div>
+      </div>
+      <div style="background:#0d0d0d;border:1px solid rgba(201,151,90,0.12);border-radius:3px;padding:7px 10px;">
+        <div style="font-size:7px;color:#c9975a;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;font-family:monospace;">04 — Order Summary</div>
+        <div style="height:8px;background:#1a1a1a;border-radius:2px;margin-bottom:3px;"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:5px;">
+          <div style="font-size:7px;color:#888;font-family:monospace;text-transform:uppercase;letter-spacing:2px;">Total</div>
+          <div style="font-size:11px;color:#c9975a;font-family:serif;">$420</div>
+        </div>
+      </div>
+      <div style="background:rgba(201,151,90,0.85);border-radius:2px;padding:7px;text-align:center;">
+        <div style="font-size:7px;color:#0a0a0a;letter-spacing:3px;text-transform:uppercase;font-weight:700;font-family:monospace;">Place Order →</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Single-page Full Scroll</h3>
+      <p>All sections stacked in one long page — Contact, Shipping, Payment, then Order Summary at the bottom. Simplest to build, but summary isn't always visible.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:20px;font-size:12px;">My recommendation: <strong>Split Layout (A)</strong> — it's what luxury e-commerce brands use, keeps the order summary visible at all times, and translates well to mobile (collapses to stacked).</p>
