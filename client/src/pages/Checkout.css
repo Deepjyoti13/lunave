@@ -17,18 +17,18 @@
   z-index: 100;
 }
 .co-nav-brand {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 22px;
   font-weight: 400;
   letter-spacing: 0.15em;
-  color: #e8b97a;
+  color: var(--gold-light);
   text-decoration: none;
 }
 .co-nav-secure {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-body);
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -51,7 +51,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-body);
   font-size: 9px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -68,10 +68,10 @@
   flex-shrink: 0;
   transition: all 0.3s;
 }
-.co-step.active .co-step-num  { background: #c9975a; color: #0a0a0a; }
+.co-step.active .co-step-num  { background: var(--gold); color: var(--black); }
 .co-step.done .co-step-num    { background: rgba(201,151,90,0.15); border: 1px solid rgba(201,151,90,0.4); color: #c9975a; }
 .co-step.inactive .co-step-num { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.25); }
-.co-step.active .co-step-label  { color: #c9975a; }
+.co-step.active .co-step-label  { color: var(--gold); }
 .co-step.done .co-step-label    { color: rgba(201,151,90,0.55); }
 .co-step.inactive .co-step-label { color: rgba(255,255,255,0.2); }
 .co-step-line {
@@ -88,16 +88,16 @@
   padding: 32px clamp(16px, 4vw, 48px) 100px;
 }
 .co-page-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display);
   font-size: clamp(28px, 4vw, 42px);
   font-weight: 300;
   font-style: italic;
   letter-spacing: 0.04em;
-  color: #f5f0eb;
+  color: var(--white);
   margin-bottom: 6px;
 }
 .co-page-sub {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-body);
   font-size: 9px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -115,8 +115,8 @@
 
 /* ── Section cards ── */
 .co-section {
-  background: #161616;
-  border: 1px solid #222222;
+  background: var(--dark-card);
+  border: 1px solid var(--dark-border);
   border-radius: 3px;
   margin-bottom: 16px;
   overflow: hidden;
@@ -127,7 +127,7 @@
 }
 .co-section-head {
   padding: 18px 24px 14px;
-  border-bottom: 1px solid #222222;
+  border-bottom: 1px solid var(--dark-border);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -141,18 +141,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-body);
   font-size: 9px;
   font-weight: 600;
-  color: #c9975a;
+  color: var(--gold);
   flex-shrink: 0;
 }
 .co-section-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 17px;
   font-weight: 400;
   letter-spacing: 0.06em;
-  color: #f5f0eb;
+  color: var(--white);
   margin: 0;
 }
 .co-section-body {
