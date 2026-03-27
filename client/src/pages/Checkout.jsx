@@ -12,6 +12,105 @@ function resolveUrl(url) {
   return `${API_URL}${url}`
 }
 
+function ContactSection({ emailOffers, setEmailOffers }) {
+  return (
+    <div className="co-section">
+      <div className="co-section-head">
+        <div className="co-section-num">01</div>
+        <h2 className="co-section-title">Contact Information</h2>
+      </div>
+      <div className="co-section-body">
+        <div className="co-field-row">
+          <div className="co-field">
+            <label className="co-label">First Name</label>
+            <input className="co-input" type="text" placeholder="Elena" autoComplete="given-name" />
+          </div>
+          <div className="co-field">
+            <label className="co-label">Last Name</label>
+            <input className="co-input" type="text" placeholder="Moreau" autoComplete="family-name" />
+          </div>
+        </div>
+        <div className="co-field-row single">
+          <div className="co-field">
+            <label className="co-label">Email Address</label>
+            <input className="co-input" type="email" placeholder="elena@example.com" autoComplete="email" />
+          </div>
+        </div>
+        <div className="co-field-row single">
+          <div className="co-field">
+            <label className="co-label">Phone Number</label>
+            <input className="co-input" type="tel" placeholder="+1 (000) 000-0000" autoComplete="tel" />
+          </div>
+        </div>
+        <div className="co-check-row" onClick={() => setEmailOffers(v => !v)}>
+          <Checkbox checked={emailOffers} />
+          <span className="co-check-label">Email me with news and exclusive offers</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ShippingAddressSection({ saveAddress, setSaveAddress }) {
+  return (
+    <div className="co-section">
+      <div className="co-section-head">
+        <div className="co-section-num">02</div>
+        <h2 className="co-section-title">Shipping Address</h2>
+      </div>
+      <div className="co-section-body">
+        <div className="co-field-row single">
+          <div className="co-field">
+            <label className="co-label">Address Line 1</label>
+            <input className="co-input" type="text" placeholder="Street address" autoComplete="address-line1" />
+          </div>
+        </div>
+        <div className="co-field-row single">
+          <div className="co-field">
+            <label className="co-label">
+              Address Line 2 <span className="co-label-opt">(optional)</span>
+            </label>
+            <input className="co-input" type="text" placeholder="Apartment, suite, unit, etc." autoComplete="address-line2" />
+          </div>
+        </div>
+        <div className="co-field-row">
+          <div className="co-field">
+            <label className="co-label">City</label>
+            <input className="co-input" type="text" placeholder="Paris" autoComplete="address-level2" />
+          </div>
+          <div className="co-field">
+            <label className="co-label">State / Province</label>
+            <input className="co-input" type="text" placeholder="Île-de-France" autoComplete="address-level1" />
+          </div>
+        </div>
+        <div className="co-field-row">
+          <div className="co-field">
+            <label className="co-label">ZIP / Postal Code</label>
+            <input className="co-input" type="text" placeholder="75001" autoComplete="postal-code" />
+          </div>
+          <div className="co-field">
+            <label className="co-label">Country</label>
+            <select className="co-select" autoComplete="country-name">
+              <option>France</option>
+              <option>United States</option>
+              <option>United Kingdom</option>
+              <option>UAE</option>
+              <option>India</option>
+              <option>Germany</option>
+              <option>Italy</option>
+              <option>Japan</option>
+            </select>
+          </div>
+        </div>
+        <div className="co-check-row" onClick={() => setSaveAddress(v => !v)}>
+          <Checkbox checked={saveAddress} />
+          <span className="co-check-label">Save this address for future orders</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function Checkout() {
   const { items, totalPrice, totalCount } = useCart()
 
