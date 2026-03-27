@@ -111,6 +111,151 @@ function ShippingAddressSection({ saveAddress, setSaveAddress }) {
   )
 }
 
+const SHIPPING_OPTIONS = [
+  { id: 'standard',  label: 'Standard Delivery', days: '5 – 8 business days', price: 0 },
+  { id: 'express',   label: 'Express Delivery',  days: '2 – 3 business days', price: 18 },
+  { id: 'overnight', label: 'Overnight',          days: 'Next business day',   price: 38 },
+]
+
+function ShippingMethodSection({ selected, setSelected, isFreeShip }) {
+  return (
+    <div className="co-section">
+      <div className="co-section-head">
+        <div className="co-section-num">03</div>
+        <h2 className="co-section-title">Shipping Method</h2>
+      </div>
+      <div className="co-section-body">
+        <div className="co-ship-options">
+          {SHIPPING_OPTIONS.map(opt => (
+            <div
+              key={opt.id}
+              className={`co-ship-opt${selected === opt.id ? ' selected' : ''}`}
+              onClick={() => setSelected(opt.id)}
+            >
+              <div className="co-ship-opt-left">
+                <div className="co-radio" />
+                <div>
+                  <div className="co-ship-name">{opt.label}</div>
+                  <div className="co-ship-days">{opt.days}</div>
+                </div>
+              </div>
+              {opt.id === 'standard' && isFreeShip ? (
+                <span className="co-ship-price free">Free</span>
+              ) : opt.price === 0 ? (
+                <span className="co-ship-price free">Free</span>
+              ) : (
+                <span className="co-ship-price">${opt.price}</span>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function PaymentSection({ saveCard, setSaveCard }) {
+  return (
+    <div className="co-section">
+      <div className="co-section-head">
+        <div className="co-section-num">04</div>
+        <h2 className="co-section-title">Payment</h2>
+      </div>
+      <div className="co-section-body">
+
+        {/* Static payment logos */}
+        <div className="co-pay-logos">
+          <div className="co-pay-logo visa">VISA</div>
+          <div className="co-pay-logo mc">
+            <span className="mc-left" />
+            <span className="mc-right" />
+          </div>
+          <div className="co-pay-logo amex">AMEX</div>
+          <div className="co-pay-logo paypal">
+            <span className="pp-blue">Pay</span>
+            <span className="pp-cyan">Pal</span>
+          </div>
+          <div className="co-pay-logo apple">&#63743; Pay</div>
+          <div className="co-pay-logo gpay">
+            <span className="g">G</span>
+            <span className="o1">o</span>
+            <span className="o2">o</span>
+            <span className="g2">g</span>
+            <span className="le">le</span>
+            &nbsp;Pay
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="co-divider">
+          <div className="co-divider-line" />
+          <span className="co-divider-text">Card Details</span>
+          <div className="co-divider-line" />
+        </div>
+
+        <div className="co-field-row single">
+          <div className="co-field">
+            <label className="co-label">Name on Card</label>
+            <input className="co-input" type="text" placeholder="Elena Moreau" autoComplete="cc-name" />
+          </div>
+        </div>
+        <div className="co-field-row single">
+          <div className="co-field">
+            <label className="co-label">Card Number</label>
+            <div className="co-card-input-wrap">
+              <input
+                className="co-input"
+                type="text"
+                placeholder="0000  0000  0000  0000"
+                maxLength={19}
+                autoComplete="cc-number"
+              />
+              <span className="co-card-icon">••••</span>
+            </div>
+          </div>
+        </div>
+        <div className="co-field-row triple">
+          <div className="co-field">
+            <label className="co-label">Month</label>
+            <select className="co-select" autoComplete="cc-exp-month">
+              <option value="">MM</option>
+              {Array.from({ length: 12 }, (_, i) => {
+                const m = String(i + 1).padStart(2, '0')
+                return <option key={m} value={m}>{m}</option>
+              })}
+            </select>
+          </div>
+          <div className="co-field">
+            <label className="co-label">Year</label>
+            <select className="co-select" autoComplete="cc-exp-year">
+              <option value="">YYYY</option>
+              {[2026,2027,2028,2029,2030,2031].map(y => (
+                <option key={y} value={y}>{y}</option>
+              ))}
+            </select>
+          </div>
+          <div className="co-field">
+            <label className="co-label">CVV</label>
+            <input
+              className="co-input"
+              type="text"
+              placeholder="•••"
+              maxLength={4}
+              autoComplete="cc-csc"
+            />
+          </div>
+        </div>
+
+        <div className="co-check-row" onClick={() => setSaveCard(v => !v)}>
+          <Checkbox checked={saveCard} />
+          <span className="co-check-label">Save card for future purchases</span>
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
 export default function Checkout() {
   const { items, totalPrice, totalCount } = useCart()
 
