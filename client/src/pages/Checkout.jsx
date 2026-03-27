@@ -256,6 +256,146 @@ function PaymentSection({ saveCard, setSaveCard }) {
   )
 }
 
+function Checkbox({ checked }) {
+  return (
+    <div className={`co-checkbox${checked ? ' checked' : ''}`}>
+      {checked && (
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#c9975a" strokeWidth="3">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      )}
+    </div>
+  )
+}
+
+function SummaryItemList({ items }) {
+  return (
+    <div className="co-summary-items">
+      {items.map(item => {
+        const imgUrl = resolveUrl(item.image)
+        return (
+          <div key={item._id} className="co-sum-item">
+            <div className="co-sum-thumb">
+              {imgUrl
+                ? <img src={imgUrl} alt={item.name} className="co-sum-thumb-img" onError={e => { e.currentTarget.style.display = 'none' }} />
+                : null
+              }
+              <div className="co-sum-qty-badge">{item.quantity}</div>
+            </div>
+            <div className="co-sum-info">
+              <div className="co-sum-name">{item.name}</div>
+              {item.volume && <div className="co-sum-vol">{item.volume}ml · Eau de Parfum</div>}
+            </div>
+            <div className="co-sum-price">${(item.price * item.quantity).toFixed(2)}</div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function SummaryTotals({ totalPrice, grandTotal, shippingCost, isFreeShip }) {
+  return (
+    <div className="co-summary-totals">
+      <div className="co-tot-row">
+        <span>Subtotal</span>
+        <span>${totalPrice.toFixed(2)}</span>
+      </div>
+      <div className={`co-tot-row${isFreeShip || shippingCost === 0 ? ' free' : ''}`}>
+        <span>Shipping</span>
+        <span>{isFreeShip || shippingCost === 0 ? 'Free' : `$${shippingCost}`}</span>
+      </div>
+      <div className="co-tot-row">
+        <span>Tax</span>
+        <span>Calculated at next step</span>
+      </div>
+      <div className="co-grand-total">
+        <span className="co-grand-label">Total</span>
+        <span className="co-grand-amount">${grandTotal.toFixed(2)}</span>
+      </div>
+    </div>
+  )
+}
+
+function OrderSummary({ items, totalCount, totalPrice, grandTotal, shippingCost, isFreeShip, promoCode, setPromoCode }) {
+  return (
+    <div className="co-summary">
+      <div className="co-summary-head">
+        <span className="co-summary-title">Your Order</span>
+        <span className="co-summary-count">{totalCount} {totalCount === 1 ? 'Item' : 'Items'}</span>
+      </div>
+
+      <SummaryItemList items={items} />
+
+      <div className="co-summary-promo">
+        <label className="co-label">Promo Code</label>
+        <div className="co-promo-row">
+          <input
+            className="co-promo-input"
+            type="text"
+            placeholder="Enter code"
+            value={promoCode}
+            onChange={e => setPromoCode(e.target.value)}
+          />
+          <button className="co-promo-btn">Apply</button>
+        </div>
+      </div>
+
+      <SummaryTotals
+        totalPrice={totalPrice}
+        grandTotal={grandTotal}
+        shippingCost={shippingCost}
+        isFreeShip={isFreeShip}
+      />
+
+      <div className="co-security">
+        <div className="co-badge">
+          <Shield size={10} />
+          SSL Secured
+        </div>
+        <div className="co-badge">
+          <Lock size={10} />
+          256-bit Encryption
+        </div>
+        <div className="co-badge">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          PCI Compliant
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function MobileAccordion({ items, totalPrice, grandTotal, shippingCost, isFreeShip, open, setOpen }) {
+  return (
+    <div className="co-mobile-summary">
+      <button
+        className={`co-accord-btn${open ? ' open' : ''}`}
+        onClick={() => setOpen(v => !v)}
+      >
+        <span>Order Summary</span>
+        <div className="co-accord-right">
+          <span className="co-accord-total">${grandTotal.toFixed(2)}</span>
+          <div className="co-accord-arrow">
+            <ChevronDown size={10} />
+          </div>
+        </div>
+      </button>
+      <div className={`co-accord-panel${open ? ' open' : ''}`}>
+        <SummaryItemList items={items} />
+        <SummaryTotals
+          totalPrice={totalPrice}
+          grandTotal={grandTotal}
+          shippingCost={shippingCost}
+          isFreeShip={isFreeShip}
+        />
+      </div>
+    </div>
+  )
+}
+
 export default function Checkout() {
   const { items, totalPrice, totalCount } = useCart()
 
