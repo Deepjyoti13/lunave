@@ -1,0 +1,160 @@
+/* ============================================================
+   CHECKOUT PAGE — Lunave
+   Layout: two-col desktop, single-col mobile
+   ============================================================ */
+
+/* ── Navbar strip ── */
+.co-nav {
+  height: 64px;
+  background: rgba(10, 10, 10, 0.97);
+  border-bottom: 1px solid rgba(201, 151, 90, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(20px, 5vw, 60px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.co-nav-brand {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: #e8b97a;
+  text-decoration: none;
+}
+.co-nav-secure {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(201, 151, 90, 0.5);
+}
+.co-nav-secure svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+/* ── Step breadcrumb ── */
+.co-breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px 0 0;
+}
+.co-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.co-step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 600;
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+.co-step.active .co-step-num  { background: #c9975a; color: #0a0a0a; }
+.co-step.done .co-step-num    { background: rgba(201,151,90,0.15); border: 1px solid rgba(201,151,90,0.4); color: #c9975a; }
+.co-step.inactive .co-step-num { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.25); }
+.co-step.active .co-step-label  { color: #c9975a; }
+.co-step.done .co-step-label    { color: rgba(201,151,90,0.55); }
+.co-step.inactive .co-step-label { color: rgba(255,255,255,0.2); }
+.co-step-line {
+  width: 48px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0 4px;
+}
+
+/* ── Page wrapper ── */
+.co-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px clamp(16px, 4vw, 48px) 100px;
+}
+.co-page-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: #f5f0eb;
+  margin-bottom: 6px;
+}
+.co-page-sub {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(201, 151, 90, 0.5);
+  margin-bottom: 28px;
+}
+
+/* ── Two-column grid ── */
+.co-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 32px;
+  align-items: start;
+}
+
+/* ── Section cards ── */
+.co-section {
+  background: #161616;
+  border: 1px solid #222222;
+  border-radius: 3px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.co-section:focus-within {
+  border-color: rgba(201, 151, 90, 0.3);
+}
+.co-section-head {
+  padding: 18px 24px 14px;
+  border-bottom: 1px solid #222222;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.co-section-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(201, 151, 90, 0.1);
+  border: 1px solid rgba(201, 151, 90, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  color: #c9975a;
+  flex-shrink: 0;
+}
+.co-section-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: #f5f0eb;
+  margin: 0;
+}
+.co-section-body {
+  padding: 20px 24px;
+}
