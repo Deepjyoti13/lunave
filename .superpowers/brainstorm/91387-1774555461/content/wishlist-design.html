@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lunave Wishlist Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #080808;
+    font-family: 'Montserrat', sans-serif;
+    padding: 32px 24px 80px;
+    color: #f0e6d2;
+  }
+
+  /* accent: #ecd798 — champagne gold (user's pantone 7420c) */
+  :root {
+    --accent: #ecd798;
+    --accent-dim: rgba(236,215,152,0.45);
+    --accent-faint: rgba(236,215,152,0.1);
+    --accent-border: rgba(236,215,152,0.2);
+    --dark-panel: #0d0d0d;
+    --darker: #080808;
+    --item-bg: #131313;
+    --text: #f0e6d2;
+    --text-dim: rgba(240,230,210,0.55);
+    --text-faint: rgba(240,230,210,0.25);
+  }
+
+  .page-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent-dim);
+    margin-bottom: 6px;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  .layout {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  /* ─── Navbar strip ─────────────────────── */
+  .navbar-strip {
+    width: 100%;
+    height: 52px;
+    background: rgba(10,10,10,0.95);
+    border-bottom: 1px solid rgba(236,215,152,0.08);
+    display: flex;
+    align-items: center;
+    padding: 0 28px;
+    gap: 16px;
+    margin-bottom: 32px;
+    border-radius: 2px;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    flex: 1;
+  }
+  .nav-icons-row { display: flex; gap: 12px; align-items: center; }
+  .nav-icon {
+    width: 34px; height: 34px;
+    border: 1px solid rgba(236,215,152,0.12);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-dim);
+    font-size: 14px;
+    position: relative;
+  }
+  .nav-icon.active {
+    border-color: var(--accent-dim);
+    color: var(--accent);
+    background: var(--accent-faint);
+  }
+  .nav-badge {
+    position: absolute;
+    top: -3px; right: -3px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #0d0d0d;
+    font-size: 8px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav-icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+  .nav-icon.heart svg { fill: var(--accent); stroke: var(--accent); }
+
+  /* ─── DRAWER ──────────────────────────── */
+  .drawer {
+    width: 400px;
+    background: var(--dark-panel);
+    border: 1px solid var(--accent-border);
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.7);
+    flex-shrink: 0;
+  }
+
+  /* header */
+  .drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 24px 20px;
+    border-bottom: 1px solid var(--accent-border);
+    flex-shrink: 0;
+  }
+  .drawer-header-left { display: flex; align-items: center; gap: 10px; }
+  .drawer-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 400;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+  .drawer-count {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--accent-faint);
+    border: 1px solid var(--accent-border);
+    color: var(--accent);
+    font-size: 10px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .drawer-close {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1px solid var(--accent-border);
+    color: var(--accent-dim);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; cursor: pointer;
+    background: none;
+  }
+
+  /* item list */
+  .drawer-list { flex: 1; }
+
+  /* single wishlist item */
+  .wish-item {
+    display: flex;
+    gap: 14px;
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .wish-item:hover { background: var(--accent-faint); }
+
+  .wish-thumb {
+    width: 76px; height: 92px;
+    flex-shrink: 0;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #181510;
+    border: 1px solid var(--accent-border);
+    display: flex; align-items: center; justify-content: center;
+  }
+  /* fake bottle SVG */
+  .wish-thumb svg { opacity: 0.55; }
+
+  .wish-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0;
+  }
+
+  .wish-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .wish-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .wish-vol {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    color: var(--accent-dim);
+    letter-spacing: 0.05em;
+    margin-top: 3px;
+  }
+
+  .wish-remove {
+    background: none; border: none; cursor: pointer;
+    color: var(--text-faint);
+    padding: 2px;
+    font-size: 13px;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: color 0.2s;
+  }
+  .wish-remove:hover { color: #c47575; }
+
+  .wish-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .wish-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px; font-weight: 400;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+  }
+
+  .wish-add-btn {
+    padding: 7px 14px;
+    background: var(--accent);
+    color: #0d0d0d;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 1px;
+    display: flex; align-items: center; gap: 6px;
+    transition: box-shadow 0.2s, transform 0.15s;
+  }
+  .wish-add-btn:hover {
+    box-shadow: 0 4px 16px rgba(236,215,152,0.25);
+    transform: translateY(-1px);
+  }
+
+  /* footer */
+  .drawer-footer {
+    border-top: 1px solid var(--accent-border);
+    padding: 20px 24px 24px;
+    background: #0a0a0a;
+    flex-shrink: 0;
+  }
+  .drawer-footer-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+  .footer-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .footer-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 300;
+    color: var(--accent);
+  }
+  .drawer-move-all {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, rgba(236,215,152,0.9), rgba(220,196,120,0.8));
+    border: none;
+    color: #0d0d0d;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    cursor: pointer; border-radius: 2px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: box-shadow 0.25s, transform 0.15s;
+  }
+  .drawer-move-all:hover {
+    box-shadow: 0 8px 28px rgba(236,215,152,0.22);
+    transform: translateY(-1px);
+  }
+  .drawer-clear {
+    width: 100%; margin-top: 10px;
+    background: none; border: none;
+    color: var(--text-faint);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; letter-spacing: 0.12em;
+    text-transform: uppercase; cursor: pointer;
+    padding: 8px; transition: color 0.2s;
+  }
+  .drawer-clear:hover { color: rgba(196,117,117,0.6); }
+
+  /* ─── Heart button on product card ───── */
+  .card-section { flex: 1; min-width: 280px; }
+  .section-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-dim);
+    margin-bottom: 16px;
+  }
+  .product-card-demo {
+    width: 200px;
+    background: #161616;
+    border: 1px solid #222;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-img-area {
+    height: 200px;
+    background: linear-gradient(135deg, #141414 0%, #1c1a17 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .card-actions {
+    position: absolute;
+    top: 10px; right: 10px;
+    display: flex; flex-direction: column; gap: 7px;
+  }
+  .card-action {
+    width: 34px; height: 34px;
+    background: rgba(10,10,10,0.85);
+    border: 1px solid #2a2a2a;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: all 0.25s;
+    color: rgba(240,230,210,0.5);
+    font-size: 13px;
+  }
+  .card-action.wished {
+    border-color: var(--accent-dim);
+    color: var(--accent);
+    background: rgba(236,215,152,0.1);
+  }
+  .card-action.wished svg { fill: currentColor; }
+  .card-action svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+
+  .card-info {
+    padding: 14px 16px;
+    border-top: 1px solid #222;
+  }
+  .card-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px; font-weight: 500;
+    color: var(--text); margin-bottom: 3px;
+  }
+  .card-vol {
+    font-size: 10px; color: var(--text-dim); margin-bottom: 10px;
+  }
+  .card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .card-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px; color: var(--accent);
+  }
+  .card-add {
+    padding: 7px 12px;
+    background: none;
+    border: 1px solid #2a2a2a;
+    color: var(--text-dim);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.25s;
+  }
+  .card-add:hover { background: var(--accent); border-color: var(--accent); color: #0d0d0d; }
+
+  /* empty state */
+  .wish-empty {
+    padding: 48px 24px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 14px; text-align: center;
+  }
+  .wish-empty-ring {
+    width: 60px; height: 60px; border-radius: 50%;
+    border: 1px solid var(--accent-border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent-dim);
+  }
+  .wish-empty em {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-style: italic;
+    color: rgba(236,215,152,0.3);
+    display: block; margin-bottom: 4px;
+  }
+  .wish-empty p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--text-faint);
+  }
+
+  .two-drawers { display: flex; gap: 24px; flex-wrap: wrap; }
+  .drawer-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(236,215,152,0.4); margin-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Navbar with heart badge -->
+<div class="page-label">Navbar — Heart Icon with Badge</div>
+<div class="navbar-strip">
+  <div class="nav-logo">Lunave</div>
+  <div class="nav-icons-row">
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+    </div>
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+    <!-- Heart — active with badge -->
+    <div class="nav-icon active heart">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <div class="nav-badge">2</div>
+    </div>
+    <div class="nav-icon" style="position:relative">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <div class="nav-badge">3</div>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- Product card with wished state -->
+  <div class="card-section">
+    <div class="section-label" style="margin-bottom:8px">Product Card — Heart Button (wished)</div>
+    <div style="font-family:'Montserrat',sans-serif;font-size:10px;color:rgba(236,215,152,0.35);margin-bottom:14px;">Hover product → heart appears. Click → turns champagne gold + fills. Saved to wishlist.</div>
+    <div class="product-card-demo">
+      <div class="card-img-area">
+        <svg width="55" height="90" viewBox="0 0 60 100" fill="none">
+          <rect x="22" y="0" width="16" height="10" rx="2" fill="rgba(236,215,152,0.35)"/>
+          <rect x="26" y="10" width="8" height="8" rx="1" fill="rgba(236,215,152,0.25)"/>
+          <path d="M12 24 Q8 35 8 50 L8 78 Q8 92 30 92 Q52 92 52 78 L52 50 Q52 35 48 24 Z" fill="rgba(236,215,152,0.08)" stroke="rgba(236,215,152,0.3)" stroke-width="1"/>
+        </svg>
+        <div class="card-actions">
+          <!-- Wished state (filled heart) -->
+          <div class="card-action wished" title="Remove from wishlist">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <div class="card-action" title="Quick view">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Oud Noir</div>
+        <div class="card-vol">100ml · Eau de Parfum</div>
+        <div class="card-footer">
+          <span class="card-price">$129.00</span>
+          <button class="card-add">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drawer states -->
+  <div>
+    <div class="two-drawers">
+
+      <!-- Filled wishlist drawer -->
+      <div>
+        <div class="drawer-label">Wishlist Drawer — With Items</div>
+        <div class="drawer">
+          <div class="drawer-header">
+            <div class="drawer-header-left">
+              <div class="drawer-title">Wishlist</div>
+              <div class="drawer-count">2</div>
+            </div>
+            <button class="drawer-close">✕</button>
+          </div>
+
+          <div class="drawer-list">
+            <!-- Item 1 -->
+            <div class="wish-item">
+              <div class="wish-thumb">
+                <svg width="36" height="60" viewBox="0 0 60 100" fill="none">
+                  <rect x="22" y="0" width="16" height="10" rx="2" fill="rgba(236,215,152,0.35)"/>
+                  <path d="M12 24 Q8 35 8 50 L8 78 Q8 92 30 92 Q52 92 52 78 L52 50 Q52 35 48 24 Z" fill="rgba(236,215,152,0.08)" stroke="rgba(236,215,152,0.3)" stroke-width="1.5"/>
+                </svg>
+              </div>
+              <div class="wish-body">
+                <div class="wish-top">
+                  <div>
+                    <div class="wish-name">Oud Noir</div>
+                    <div class="wish-vol">100ml · EDP</div>
+                  </div>
+                  <button class="wish-remove">✕</button>
+                </div>
+                <div class="wish-bottom">
+                  <span class="wish-price">$129.00</span>
+                  <button class="wish-add-btn">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="wish-item">
+              <div class="wish-thumb">
+                <svg width="36" height="60" viewBox="0 0 60 100" fill="none">
+                  <rect x="22" y="0" width="16" height="10" rx="2" fill="rgba(236,215,152,0.35)"/>
+                  <path d="M12 24 Q8 35 8 50 L8 78 Q8 92 30 92 Q52 92 52 78 L52 50 Q52 35 48 24 Z" fill="rgba(236,215,152,0.08)" stroke="rgba(236,215,152,0.3)" stroke-width="1.5"/>
+                </svg>
+              </div>
+              <div class="wish-body">
+                <div class="wish-top">
+                  <div>
+                    <div class="wish-name">Rose Élite</div>
+                    <div class="wish-vol">50ml · EDP</div>
+                  </div>
+                  <button class="wish-remove">✕</button>
+                </div>
+                <div class="wish-bottom">
+                  <span class="wish-price">$89.00</span>
+                  <button class="wish-add-btn">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="drawer-footer">
+            <div class="drawer-footer-row">
+              <span class="footer-label">2 Items saved</span>
+              <span class="footer-val">$218.00</span>
+            </div>
+            <button class="drawer-move-all">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+              Move All to Cart
+            </button>
+            <button class="drawer-clear">Clear wishlist</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div>
+        <div class="drawer-label">Wishlist Drawer — Empty State</div>
+        <div class="drawer" style="width:300px">
+          <div class="drawer-header">
+            <div class="drawer-header-left">
+              <div class="drawer-title">Wishlist</div>
+            </div>
+            <button class="drawer-close">✕</button>
+          </div>
+          <div class="wish-empty">
+            <div class="wish-empty-ring">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="rgba(236,215,152,0.4)" stroke="rgba(236,215,152,0.5)" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <div>
+              <em>Nothing saved yet</em>
+              <p>Add pieces you love to your wishlist</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

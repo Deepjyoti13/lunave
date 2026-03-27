@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useCallback, useEffect } from 'rea
 import { useAuth } from './AuthContext'
 import toast from 'react-hot-toast'
 
-const API_URL = 'http://localhost:5000'
+const API_URL = 'http://localhost:5001'
 const CartCtx = createContext(null)
 
 export function CartProvider({ children }) {

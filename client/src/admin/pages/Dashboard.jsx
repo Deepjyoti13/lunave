@@ -260,7 +260,7 @@ export default function Dashboard({ setPage }) {
                   <td>
                     <div className="a-product-row">
                       {p.images?.[0]?.url
-                        ? <img src={`http://localhost:5000${p.images[0].url}`} className="a-product-thumb" alt="" />
+                        ? <img src={`http://localhost:5001${p.images[0].url}`} className="a-product-thumb" alt="" />
                         : <div className="a-product-thumb" style={{background:'#222', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'8px', color:'#555'}}>IMG</div>
                       }
                       <span style={{fontSize:'12px', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis', maxWidth:'120px'}}>{p.name}</span>

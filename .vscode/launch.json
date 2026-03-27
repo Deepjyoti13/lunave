@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Server",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/server/server.js",
+      "envFile": "${workspaceFolder}/server/.env",
+      "console": "integratedTerminal",
+      "restart": true,
+      "runtimeExecutable": "nodemon",
+      "runtimeArgs": ["--experimental-specifier-resolution=node"],
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Server (node)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/server/server.js",
+      "envFile": "${workspaceFolder}/server/.env",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ]
+}

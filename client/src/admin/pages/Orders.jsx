@@ -5,7 +5,7 @@ const STATUSES = ['All','Placed','Confirmed','Processing','Shipped','Delivered',
 const NEXT_STATUS = {
   Placed:'Confirmed', Confirmed:'Processing', Processing:'Shipped', Shipped:'Delivered'
 }
-const API = 'http://localhost:5000'
+const API = 'http://localhost:5001'
 
 export default function Orders() {
   const apiFetch = useAdminFetch()

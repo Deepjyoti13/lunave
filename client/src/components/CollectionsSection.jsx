@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 
-const API_URL = "http://localhost:5000"
+const API_URL = "http://localhost:5001"
 
 function PlaceholderImg({ name, accent }) {
   return (

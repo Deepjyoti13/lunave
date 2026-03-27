@@ -132,7 +132,7 @@ In `BestSellers.jsx`, replace the static array with:
 const [products, setProducts] = useState([])
 
 useEffect(() => {
-  fetch('http://localhost:5000/api/products?featured=true&limit=4')
+  fetch('http://localhost:5001/api/products?featured=true&limit=4')
     .then(r => r.json())
     .then(data => setProducts(data))
 }, [])
@@ -142,7 +142,7 @@ useEffect(() => {
 In `Footer.jsx`, update the submit handler:
 ```jsx
 const handleSubmit = async () => {
-  await fetch('http://localhost:5000/api/newsletter', {
+  await fetch('http://localhost:5001/api/newsletter', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email }),

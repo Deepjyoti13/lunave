@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 
 const AdminAuthContext = createContext(null)
 
-const API = 'http://localhost:5000/api'
+const API = 'http://localhost:5001/api'
 
 export function AdminAuthProvider({ children }) {
   const [admin, setAdmin]     = useState(null)

@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lunave — Design Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:wght@400;500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --dark: #111111;
+    --dark-card: #161616;
+    --dark-border: #222222;
+    --gold: #c9975a;
+    --gold-light: #e8b97a;
+    --gold-dark: #a07040;
+    --gold-glow: rgba(201, 151, 90, 0.25);
+    --white: #f5f0eb;
+    --white-dim: rgba(245, 240, 235, 0.7);
+    --white-faint: rgba(245, 240, 235, 0.12);
+  }
+
+  body {
+    background: #050505;
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    padding: 40px 24px 80px;
+  }
+
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .page-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    color: var(--white-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 48px;
+  }
+
+  .section-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--dark-border);
+  }
+
+  .preview-wrap {
+    margin-bottom: 56px;
+  }
+
+  /* =====================
+     AUTH PAGE MOCKUP
+     ===================== */
+  .auth-mockup {
+    display: flex;
+    height: 560px;
+    border: 1px solid var(--dark-border);
+    overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+    border-radius: 2px;
+  }
+
+  /* Left brand panel */
+  .auth-left {
+    width: 42%;
+    background: linear-gradient(160deg, #100e0a 0%, #1a1510 40%, #120f0c 100%);
+    border-right: 1px solid #2a2210;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .auth-left::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(201,151,90,0.06) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .auth-left::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    right: -60px;
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, rgba(201,151,90,0.04) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .auth-brand {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .auth-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .auth-tagline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(201,151,90,0.5);
+    margin-bottom: 32px;
+  }
+
+  .auth-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .auth-ornament-line {
+    width: 40px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,151,90,0.4));
+  }
+
+  .auth-ornament-line.right {
+    background: linear-gradient(90deg, rgba(201,151,90,0.4), transparent);
+  }
+
+  .auth-ornament-diamond {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    opacity: 0.6;
+  }
+
+  .auth-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(245,240,235,0.4);
+    line-height: 1.8;
+    text-align: center;
+    max-width: 220px;
+  }
+
+  /* Right form panel */
+  .auth-right {
+    flex: 1;
+    background: var(--black);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 44px;
+  }
+
+  .auth-form-inner {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .auth-form-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .auth-form-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    color: var(--white-dim);
+    margin-bottom: 32px;
+  }
+
+  .form-field {
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .form-label {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(245,240,235,0.4);
+    margin-bottom: 8px;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 12px 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--dark-border);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .form-input:focus {
+    border-bottom-color: var(--gold);
+  }
+
+  .form-input::placeholder {
+    color: rgba(245,240,235,0.18);
+    font-size: 12px;
+  }
+
+  .form-input.active {
+    border-bottom-color: var(--gold);
+    color: var(--white);
+  }
+
+  .btn-submit {
+    width: 100%;
+    padding: 14px;
+    background: var(--gold);
+    color: var(--black);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    margin-top: 8px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .form-switch {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    color: var(--white-dim);
+  }
+
+  .form-switch span {
+    color: var(--gold);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+
+  /* Mobile note badge */
+  .mobile-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201,151,90,0.08);
+    border: 1px solid rgba(201,151,90,0.2);
+    padding: 8px 14px;
+    margin-bottom: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    color: rgba(201,151,90,0.8);
+    letter-spacing: 0.05em;
+  }
+
+  /* Auth mobile mockup */
+  .auth-mobile {
+    width: 220px;
+    height: 460px;
+    border: 1px solid var(--dark-border);
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+    display: flex;
+    flex-direction: column;
+    background: var(--black);
+  }
+
+  .mobile-header {
+    padding: 20px 20px 16px;
+    text-align: center;
+    background: linear-gradient(180deg, #100e0a 0%, var(--black) 100%);
+    border-bottom: 1px solid #1a1a1a;
+  }
+
+  .mobile-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+
+  .mobile-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 6px 0;
+  }
+
+  .mobile-ornament-line {
+    width: 20px;
+    height: 1px;
+    background: rgba(201,151,90,0.35);
+  }
+
+  .mobile-ornament-dot {
+    width: 4px;
+    height: 4px;
+    background: rgba(201,151,90,0.5);
+    border-radius: 50%;
+  }
+
+  .mobile-body {
+    flex: 1;
+    padding: 20px 20px 16px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .mobile-sub {
+    font-size: 10px;
+    color: var(--white-dim);
+    margin-bottom: 18px;
+  }
+
+  .mobile-label {
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(245,240,235,0.35);
+    margin-bottom: 5px;
+  }
+
+  .mobile-input {
+    width: 100%;
+    padding: 7px 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #252525;
+    font-size: 10px;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .mobile-btn {
+    width: 100%;
+    padding: 10px;
+    background: var(--gold);
+    color: var(--black);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border: none;
+    margin-top: 4px;
+    margin-bottom: 14px;
+  }
+
+  .mobile-switch {
+    text-align: center;
+    font-size: 10px;
+    color: var(--white-dim);
+  }
+
+  .mobile-switch span {
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .two-up {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  /* =====================
+     PROFILE MOCKUP
+     ===================== */
+  .profile-mockup {
+    border: 1px solid var(--dark-border);
+    overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+    max-width: 800px;
+    border-radius: 2px;
+    background: var(--black);
+  }
+
+  .profile-nav {
+    height: 52px;
+    background: rgba(10,10,10,0.95);
+    border-bottom: 1px solid var(--dark-border);
+    display: flex;
+    align-items: center;
+    padding: 0 28px;
+    gap: 16px;
+  }
+
+  .profile-nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    flex: 1;
+  }
+
+  .nav-back {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white-dim);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .profile-hero {
+    background: linear-gradient(160deg, #0f0d0a 0%, #141108 60%, #0a0a0a 100%);
+    border-bottom: 1px solid #252010;
+    padding: 32px 32px 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .profile-hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(201,151,90,0.05) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .profile-avatar-lg {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a1510, #2a2018);
+    border: 1px solid rgba(201,151,90,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--gold);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .profile-info {
+    flex: 1;
+    position: relative;
+    z-index: 2;
+  }
+
+  .profile-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 3px;
+  }
+
+  .profile-email {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    color: var(--white-dim);
+    margin-bottom: 10px;
+  }
+
+  .profile-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(201,151,90,0.1);
+    border: 1px solid rgba(201,151,90,0.25);
+    padding: 4px 12px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .profile-badge::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  .logout-btn {
+    padding: 8px 18px;
+    background: transparent;
+    border: 1px solid var(--dark-border);
+    color: var(--white-dim);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    z-index: 2;
+    align-self: flex-start;
+  }
+
+  .stats-bar {
+    display: flex;
+    border-bottom: 1px solid var(--dark-border);
+  }
+
+  .stat-item {
+    flex: 1;
+    padding: 18px 0;
+    text-align: center;
+    border-right: 1px solid var(--dark-border);
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 300;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .stat-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(245,240,235,0.35);
+  }
+
+  .orders-section {
+    padding: 24px 28px 28px;
+  }
+
+  .orders-heading {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .orders-heading::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--dark-border);
+  }
+
+  .order-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 16px;
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    margin-bottom: 8px;
+    border-left: 2px solid rgba(201,151,90,0.4);
+  }
+
+  .order-id {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    min-width: 70px;
+  }
+
+  .order-date {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    color: var(--white-dim);
+    flex: 1;
+  }
+
+  .order-total {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--white);
+    min-width: 70px;
+    text-align: right;
+  }
+
+  .order-status {
+    padding: 3px 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    min-width: 72px;
+    text-align: center;
+  }
+
+  .status-delivered {
+    background: rgba(100,180,100,0.1);
+    border: 1px solid rgba(100,180,100,0.3);
+    color: #7cc87c;
+  }
+
+  .status-pending {
+    background: rgba(201,151,90,0.1);
+    border: 1px solid rgba(201,151,90,0.3);
+    color: var(--gold);
+  }
+
+  .empty-orders {
+    text-align: center;
+    padding: 32px 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: rgba(245,240,235,0.3);
+  }
+</style>
+<body>
+
+<p class="page-title">Lunave — Auth & Profile Redesign</p>
+<p class="page-sub">Full high-fidelity mockups using brand colors, fonts & the chosen layouts</p>
+
+<!-- AUTH DESKTOP -->
+<div class="preview-wrap">
+  <div class="section-label">Login / Register — Desktop (Split Screen)</div>
+  <div class="auth-mockup">
+    <div class="auth-left">
+      <div class="auth-brand">
+        <span class="auth-logo">Lunave</span>
+        <div class="auth-tagline">Luxury Perfumery</div>
+        <div class="auth-ornament">
+          <div class="auth-ornament-line"></div>
+          <div class="auth-ornament-diamond"></div>
+          <div class="auth-ornament-line right"></div>
+        </div>
+        <p class="auth-quote">"A fragrance is the invisible part of your personality."</p>
+      </div>
+    </div>
+    <div class="auth-right">
+      <div class="auth-form-inner">
+        <div class="auth-form-title">Welcome Back</div>
+        <div class="auth-form-sub">Sign in to your account</div>
+
+        <div class="form-field">
+          <label class="form-label">Email Address</label>
+          <input class="form-input active" value="deepjyoti@lunave.com" readonly style="color:var(--white)">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Password</label>
+          <input class="form-input" placeholder="••••••••" readonly>
+        </div>
+
+        <button class="btn-submit">Sign In →</button>
+
+        <div class="form-switch">
+          Don't have an account? <span>Create one here</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MOBILE -->
+<div class="preview-wrap">
+  <div class="section-label">Login / Register — Mobile (Brand Header + Stacked Form)</div>
+  <div style="font-family:'Montserrat',sans-serif;font-size:11px;color:rgba(201,151,90,0.7);margin-bottom:16px;letter-spacing:0.05em;">
+    ℹ On mobile, the left brand panel becomes a compact header above the form — same identity, stacked vertically.
+  </div>
+  <div class="two-up">
+    <!-- Login mobile -->
+    <div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(245,240,235,0.35);margin-bottom:10px;">Login</div>
+      <div class="auth-mobile">
+        <div class="mobile-header">
+          <div class="mobile-logo">Lunave</div>
+          <div class="mobile-ornament">
+            <div class="mobile-ornament-line"></div>
+            <div class="mobile-ornament-dot"></div>
+            <div class="mobile-ornament-line"></div>
+          </div>
+        </div>
+        <div class="mobile-body">
+          <div class="mobile-title">Welcome Back</div>
+          <div class="mobile-sub">Sign in to continue</div>
+          <div class="mobile-label">Email</div>
+          <input class="mobile-input" readonly value="you@example.com" style="font-size:10px;color:var(--white)">
+          <div class="mobile-label">Password</div>
+          <input class="mobile-input" readonly placeholder="••••••••" style="font-size:10px">
+          <button class="mobile-btn">Sign In →</button>
+          <div class="mobile-switch">No account? <span>Register here</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Register mobile -->
+    <div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(245,240,235,0.35);margin-bottom:10px;">Register</div>
+      <div class="auth-mobile">
+        <div class="mobile-header">
+          <div class="mobile-logo">Lunave</div>
+          <div class="mobile-ornament">
+            <div class="mobile-ornament-line"></div>
+            <div class="mobile-ornament-dot"></div>
+            <div class="mobile-ornament-line"></div>
+          </div>
+        </div>
+        <div class="mobile-body">
+          <div class="mobile-title">Create Account</div>
+          <div class="mobile-sub">Join the House of Lunave</div>
+          <div class="mobile-label">Full Name</div>
+          <input class="mobile-input" readonly placeholder="Your name" style="font-size:10px">
+          <div class="mobile-label">Email</div>
+          <input class="mobile-input" readonly placeholder="you@example.com" style="font-size:10px">
+          <div class="mobile-label">Password</div>
+          <input class="mobile-input" readonly placeholder="••••••••" style="font-size:10px">
+          <button class="mobile-btn">Create Account →</button>
+          <div class="mobile-switch">Have an account? <span>Login here</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<div class="preview-wrap">
+  <div class="section-label">Profile / Account Page</div>
+  <div class="profile-mockup">
+    <div class="profile-nav">
+      <div class="profile-nav-logo">Lunave</div>
+      <div class="nav-back">← Back to Shop</div>
+    </div>
+
+    <div class="profile-hero">
+      <div class="profile-avatar-lg">D</div>
+      <div class="profile-info">
+        <div class="profile-name">Deepjyoti</div>
+        <div class="profile-email">deepjyoti@example.com</div>
+        <div class="profile-badge">Lunave Member</div>
+      </div>
+      <button class="logout-btn">Sign Out</button>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-value">3</span>
+        <span class="stat-label">Orders</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">₹4,200</span>
+        <span class="stat-label">Total Spent</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">Mar '26</span>
+        <span class="stat-label">Member Since</span>
+      </div>
+    </div>
+
+    <div class="orders-section">
+      <div class="orders-heading">Order History</div>
+
+      <div class="order-card">
+        <div class="order-id">#A1F3C2</div>
+        <div class="order-date">27 Mar 2026</div>
+        <div class="order-total">₹1,800.00</div>
+        <div class="order-status status-delivered">Delivered</div>
+      </div>
+      <div class="order-card">
+        <div class="order-id">#B9E2A1</div>
+        <div class="order-date">14 Mar 2026</div>
+        <div class="order-total">₹2,400.00</div>
+        <div class="order-status status-pending">Processing</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

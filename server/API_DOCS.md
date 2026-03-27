@@ -1,6 +1,6 @@
 # LUNAVE Backend — API Reference
 
-Base URL: `http://localhost:5000/api`
+Base URL: `http://localhost:5001/api`
 
 All protected routes require:
 ```
@@ -118,8 +118,8 @@ Response:
 
 **How to use the image URL on the frontend:**
 ```js
-const imageUrl = `http://localhost:5000${product.images[0].url}`
-// → http://localhost:5000/uploads/luxurious-elixir-1716300000000-123456.jpg
+const imageUrl = `http://localhost:5001${product.images[0].url}`
+// → http://localhost:5001/uploads/luxurious-elixir-1716300000000-123456.jpg
 ```
 
 ### POST `/:id/reviews`
@@ -228,10 +228,10 @@ Also: `Cancelled`, `Returned`
 
 Uploaded images are served as static files:
 ```
-GET http://localhost:5000/uploads/<filename>
+GET http://localhost:5001/uploads/<filename>
 ```
 
-On **production**, replace `localhost:5000` with your live domain.
+On **production**, replace `localhost:5001` with your live domain.
 
 ---
 

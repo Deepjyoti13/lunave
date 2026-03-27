@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react'
 import { X, Minus, Plus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react'
 import { useCart } from '../context/Cartcontext'
 
-const API_URL = 'http://localhost:5000'
+const API_URL = 'http://localhost:5001'
 
 const resolveUrl = (url) => {
   if (!url) return null
