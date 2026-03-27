@@ -158,3 +158,294 @@
 .co-section-body {
   padding: 20px 24px;
 }
+
+/* ── Form field rows ── */
+.co-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.co-field-row.single  { grid-template-columns: 1fr; }
+.co-field-row.triple  { grid-template-columns: 1fr 1fr 1fr; }
+.co-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.co-label {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 235, 0.45);
+}
+.co-label-opt {
+  opacity: 0.4;
+  font-weight: 300;
+}
+.co-input {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  padding: 12px 14px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--white);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  width: 100%;
+}
+.co-input::placeholder { color: rgba(245, 240, 235, 0.2); }
+.co-input:focus {
+  border-color: rgba(201, 151, 90, 0.5);
+  box-shadow: 0 0 0 3px rgba(201, 151, 90, 0.07);
+  background: rgba(201, 151, 90, 0.025);
+}
+.co-select {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  padding: 12px 14px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--white);
+  outline: none;
+  width: 100%;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(201,151,90,0.5)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+.co-select option { background: var(--dark-card); color: var(--white); }
+.co-select:focus {
+  border-color: rgba(201, 151, 90, 0.5);
+  box-shadow: 0 0 0 3px rgba(201, 151, 90, 0.07);
+}
+
+/* ── Checkbox row ── */
+.co-check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  cursor: pointer;
+}
+.co-checkbox {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border: 1px solid rgba(201, 151, 90, 0.3);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.co-checkbox.checked {
+  background: rgba(201, 151, 90, 0.15);
+  border-color: rgba(201, 151, 90, 0.6);
+}
+.co-check-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: rgba(245, 240, 235, 0.4);
+  user-select: none;
+}
+
+/* ── Shipping options ── */
+.co-ship-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.co-ship-opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.co-ship-opt.selected {
+  border-color: rgba(201, 151, 90, 0.45);
+  background: rgba(201, 151, 90, 0.04);
+}
+.co-ship-opt:hover { border-color: rgba(201, 151, 90, 0.25); }
+.co-ship-opt-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.co-radio {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 151, 90, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.co-ship-opt.selected .co-radio::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: block;
+}
+.co-ship-name {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 235, 0.75);
+}
+.co-ship-days {
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: rgba(245, 240, 235, 0.3);
+  letter-spacing: 0.04em;
+  margin-top: 2px;
+}
+.co-ship-price {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--gold);
+}
+.co-ship-price.free {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(201, 151, 90, 0.65);
+}
+
+/* ── Payment logos ── */
+.co-pay-logos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.co-pay-logo {
+  height: 30px;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(245, 240, 235, 0.45);
+  min-width: 44px;
+}
+.co-pay-logo.visa  { color: #4a90d9; font-size: 13px; font-style: italic; letter-spacing: 0.01em; }
+.co-pay-logo.amex  { color: #5a9fd4; font-size: 9px; font-weight: 800; letter-spacing: 0.06em; }
+.co-pay-logo.mc    { position: relative; overflow: visible; min-width: 44px; }
+.co-pay-logo.mc .mc-left  { width: 16px; height: 16px; border-radius: 50%; background: #c0392b; display: inline-block; }
+.co-pay-logo.mc .mc-right { width: 16px; height: 16px; border-radius: 50%; background: #e67e22; display: inline-block; margin-left: -8px; opacity: 0.9; }
+.co-pay-logo.paypal .pp-blue { color: #1a5fa8; }
+.co-pay-logo.paypal .pp-cyan { color: #179bd7; }
+.co-pay-logo.apple { color: var(--white); font-size: 12px; }
+.co-pay-logo.gpay  { font-size: 10px; font-weight: 700; letter-spacing: 0; }
+.co-pay-logo.gpay .g  { color: #4285F4; }
+.co-pay-logo.gpay .o1 { color: #34A853; }
+.co-pay-logo.gpay .o2 { color: #FBBC05; }
+.co-pay-logo.gpay .g2 { color: #EA4335; }
+.co-pay-logo.gpay .le { color: #4285F4; }
+
+/* ── Card input with icon ── */
+.co-card-input-wrap { position: relative; }
+.co-card-input-wrap .co-input { padding-right: 54px; }
+.co-card-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  color: rgba(201, 151, 90, 0.35);
+  letter-spacing: 0.05em;
+  pointer-events: none;
+}
+
+/* ── Divider ── */
+.co-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0 16px;
+}
+.co-divider-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+}
+.co-divider-text {
+  font-family: var(--font-body);
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 235, 0.2);
+}
+
+/* ── Place Order button ── */
+.co-place-btn {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(201, 151, 90, 0.95), rgba(176, 122, 56, 0.9));
+  border: 1px solid rgba(201, 151, 90, 0.5);
+  color: var(--black);
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 18px 24px;
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: box-shadow 0.25s, transform 0.15s;
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.co-place-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.co-place-btn:hover {
+  box-shadow: 0 10px 36px rgba(201, 151, 90, 0.3);
+  transform: translateY(-1px);
+}
+.co-place-btn:hover::before { opacity: 1; }
+.co-place-btn:active { transform: translateY(0); }
+.co-place-note {
+  text-align: center;
+  margin-top: 10px;
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 235, 0.2);
+}
