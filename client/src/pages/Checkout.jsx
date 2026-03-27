@@ -42,7 +42,14 @@ function ContactSection({ emailOffers, setEmailOffers }) {
             <input className="co-input" type="tel" placeholder="+1 (000) 000-0000" autoComplete="tel" />
           </div>
         </div>
-        <div className="co-check-row" onClick={() => setEmailOffers(v => !v)}>
+        <div
+          className="co-check-row"
+          role="checkbox"
+          aria-checked={emailOffers}
+          tabIndex={0}
+          onClick={() => setEmailOffers(v => !v)}
+          onKeyDown={e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); setEmailOffers(v => !v) } }}
+        >
           <Checkbox checked={emailOffers} />
           <span className="co-check-label">Email me with news and exclusive offers</span>
         </div>
@@ -102,7 +109,14 @@ function ShippingAddressSection({ saveAddress, setSaveAddress }) {
             </select>
           </div>
         </div>
-        <div className="co-check-row" onClick={() => setSaveAddress(v => !v)}>
+        <div
+          className="co-check-row"
+          role="checkbox"
+          aria-checked={saveAddress}
+          tabIndex={0}
+          onClick={() => setSaveAddress(v => !v)}
+          onKeyDown={e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); setSaveAddress(v => !v) } }}
+        >
           <Checkbox checked={saveAddress} />
           <span className="co-check-label">Save this address for future orders</span>
         </div>
@@ -229,7 +243,7 @@ function PaymentSection({ saveCard, setSaveCard }) {
             <label className="co-label">Year</label>
             <select className="co-select" autoComplete="cc-exp-year">
               <option value="">YYYY</option>
-              {[2026,2027,2028,2029,2030,2031].map(y => (
+              {Array.from({ length: 6 }, (_, i) => new Date().getFullYear() + i).map(y => (
                 <option key={y} value={y}>{y}</option>
               ))}
             </select>
@@ -246,7 +260,14 @@ function PaymentSection({ saveCard, setSaveCard }) {
           </div>
         </div>
 
-        <div className="co-check-row" onClick={() => setSaveCard(v => !v)}>
+        <div
+          className="co-check-row"
+          role="checkbox"
+          aria-checked={saveCard}
+          tabIndex={0}
+          onClick={() => setSaveCard(v => !v)}
+          onKeyDown={e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); setSaveCard(v => !v) } }}
+        >
           <Checkbox checked={saveCard} />
           <span className="co-check-label">Save card for future purchases</span>
         </div>
@@ -337,7 +358,7 @@ function OrderSummary({ items, totalCount, totalPrice, grandTotal, shippingCost,
             value={promoCode}
             onChange={e => setPromoCode(e.target.value)}
           />
-          <button className="co-promo-btn">Apply</button>
+          <button type="button" className="co-promo-btn">Apply</button>
         </div>
       </div>
 
