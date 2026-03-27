@@ -10,6 +10,7 @@ import AdminApp from './admin/AdminApp.jsx'
 import Register from './pages/Register.jsx'
 import Login from './pages/Login.jsx'
 import Profile from './pages/Profile.jsx'
+import Checkout from './pages/Checkout.jsx'
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/checkout" element={<Checkout />} />
             </Routes>
           </BrowserRouter>
         </WishlistProvider>
