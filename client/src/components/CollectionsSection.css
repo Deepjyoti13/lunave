@@ -138,3 +138,14 @@
     aspect-ratio: 16 / 9;
   }
 }
+
+/* ── Skeleton loading state ── */
+.collection-card--skeleton {
+  pointer-events: none;
+  animation: col-shimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes col-shimmer {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.7; }
+}

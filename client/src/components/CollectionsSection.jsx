@@ -8,6 +8,7 @@ const API_URL = 'http://localhost:5001'
 export default function CollectionsSection() {
   const sectionRef              = useRef(null)
   const [categories, setCategories] = useState([])
+  const [loading, setLoading]       = useState(true)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -15,6 +16,7 @@ export default function CollectionsSection() {
       .then(r => r.json())
       .then(data => { if (data.success) setCategories(data.categories) })
       .catch(err => { if (err.name !== 'AbortError') console.error('Categories fetch failed:', err) })
+      .finally(() => setLoading(false))
     return () => controller.abort()
   }, [])
 
@@ -38,32 +40,39 @@ export default function CollectionsSection() {
       </div>
 
       <div className="collections-grid">
-        {categories.map((cat, i) => (
-          <Link
-            to={`/collections/${cat.slug}`}
-            className={`collection-card reveal reveal-delay-${i + 1}`}
-            key={cat._id}
-          >
-            {cat.coverImage?.url ? (
-              <img
-                src={cat.coverImage.url}
-                alt={cat.name}
-                className="collection-img"
-                loading="lazy"
-                onError={e => { e.currentTarget.style.display = 'none' }}
-              />
-            ) : (
-              <div className="collection-placeholder">
-                <span>{cat.name}</span>
+        {loading
+          ? [1, 2, 3].map(i => (
+              <div className="collection-card collection-card--skeleton reveal" key={i}>
+                <div className="collection-placeholder"><span></span></div>
               </div>
-            )}
-            <div className="collection-overlay" />
-            <div className="collection-label">
-              <h3>{cat.name}</h3>
-              <span className="collection-cta">Explore</span>
-            </div>
-          </Link>
-        ))}
+            ))
+          : categories.slice(0, 3).map((cat, i) => (
+              <Link
+                to={`/collections/${cat.slug}`}
+                className={`collection-card reveal reveal-delay-${i + 1}`}
+                key={cat._id}
+              >
+                {cat.coverImage?.url ? (
+                  <img
+                    src={cat.coverImage.url}
+                    alt={cat.name}
+                    className="collection-img"
+                    loading="lazy"
+                    onError={e => { e.currentTarget.style.display = 'none' }}
+                  />
+                ) : (
+                  <div className="collection-placeholder">
+                    <span>{cat.name}</span>
+                  </div>
+                )}
+                <div className="collection-overlay" />
+                <div className="collection-label">
+                  <h3>{cat.name}</h3>
+                  <span className="collection-cta">Explore</span>
+                </div>
+              </Link>
+            ))
+        }
       </div>
     </section>
   )
