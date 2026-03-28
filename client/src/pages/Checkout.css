@@ -440,6 +440,24 @@
 }
 .co-place-btn:hover::before { opacity: 1; }
 .co-place-btn:active { transform: translateY(0); }
+.co-place-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.co-order-error {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: #e07070;
+  background: rgba(224, 112, 112, 0.08);
+  border: 1px solid rgba(224, 112, 112, 0.25);
+  border-radius: 2px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  text-align: center;
+}
 .co-place-note {
   text-align: center;
   margin-top: 10px;

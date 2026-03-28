@@ -1,0 +1,250 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+
+  :root {
+    --black: #0a0a0a;
+    --dark: #111;
+    --dark-card: #161616;
+    --dark-border: #222;
+    --gold: #c9975a;
+    --gold-light: #e8b97a;
+    --gold-glow: rgba(201,151,90,0.2);
+    --white: #f5f0eb;
+    --white-dim: rgba(245,240,235,0.6);
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Montserrat', sans-serif;
+  }
+
+  body { background: var(--black); font-family: var(--font-body); color: var(--white); margin: 0; }
+  h2, h3 { color: var(--white); }
+  .subtitle { color: var(--white-dim); }
+
+  .cards { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; margin-top: 28px; }
+
+  .card {
+    background: var(--dark);
+    border: 1px solid var(--dark-border);
+    cursor: pointer;
+    transition: border-color 0.3s, transform 0.3s;
+    overflow: hidden;
+    flex: 1;
+    min-width: 280px;
+    max-width: 420px;
+  }
+  .card:hover { border-color: var(--gold); transform: translateY(-4px); }
+  .card.selected { border-color: var(--gold); box-shadow: 0 0 24px rgba(201,151,90,0.2); }
+  .card-body { padding: 16px; background: var(--dark); }
+  .card-body h3 { font-family: var(--font-display); font-size: 17px; color: var(--white); margin-bottom: 6px; }
+  .card-body p { font-size: 12px; color: var(--white-dim); line-height: 1.6; }
+
+  /* ── Layout A: Hero banner + 2-col product grid ── */
+  .layout-a {
+    background: var(--dark-card);
+    padding: 0;
+  }
+  .la-hero {
+    height: 110px;
+    background: linear-gradient(135deg, #1a1510 0%, #2a1f14 60%, #1e160d 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 14px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .la-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.7) 100%);
+  }
+  .la-hero-text { position: relative; z-index: 2; }
+  .la-hero-tag { font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
+  .la-hero-title { font-family: var(--font-display); font-size: 20px; font-weight: 300; color: var(--white); font-style: italic; }
+  .la-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px; }
+  .la-prod {
+    background: #111;
+    border: 1px solid #222;
+    padding: 10px;
+  }
+  .la-img { height: 60px; background: linear-gradient(135deg, #1a1510 0%, #231e18 100%); margin-bottom: 6px; display: flex; align-items: center; justify-content: center; }
+  .la-img span { font-size: 8px; letter-spacing: 0.12em; color: rgba(201,151,90,0.3); text-transform: uppercase; }
+  .la-name { font-size: 9px; font-weight: 500; color: var(--white); margin-bottom: 2px; }
+  .la-price { font-family: var(--font-display); font-size: 12px; color: var(--gold); }
+
+  /* ── Layout B: Full-width cinematic header + 3-col grid ── */
+  .layout-b { background: var(--dark-card); padding: 0; }
+  .lb-hero {
+    height: 130px;
+    background: linear-gradient(160deg, #120e0a 0%, #1e1812 50%, #0d0b09 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+  }
+  .lb-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .lb-tag { font-size: 8px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); }
+  .lb-title { font-family: var(--font-display); font-size: 24px; font-weight: 300; font-style: italic; color: var(--white); }
+  .lb-count { font-size: 9px; color: var(--white-dim); letter-spacing: 0.1em; }
+  .lb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 10px; }
+  .lb-prod {
+    background: #111;
+    border: 1px solid #1e1e1e;
+  }
+  .lb-img {
+    height: 70px;
+    background: linear-gradient(135deg, #141210 0%, #1c1915 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .lb-img span { font-size: 7px; color: rgba(201,151,90,0.25); letter-spacing: 0.1em; text-transform: uppercase; }
+  .lb-info { padding: 6px 8px; }
+  .lb-name { font-size: 8px; font-weight: 500; color: var(--white); }
+  .lb-price { font-family: var(--font-display); font-size: 11px; color: var(--gold); margin-top: 2px; }
+
+  /* ── Layout C: Split — sidebar category info + scrollable product list ── */
+  .layout-c { background: var(--dark-card); padding: 0; }
+  .lc-wrap { display: flex; height: 240px; }
+  .lc-sidebar {
+    width: 110px;
+    background: linear-gradient(180deg, #1a1510 0%, #0d0b09 100%);
+    border-right: 1px solid #2a2218;
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .lc-sidebar-tag { font-size: 7px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+  .lc-sidebar-title { font-family: var(--font-display); font-size: 18px; font-weight: 300; font-style: italic; color: var(--white); line-height: 1.2; }
+  .lc-sidebar-desc { font-size: 8px; color: var(--white-dim); line-height: 1.5; margin-top: 4px; }
+  .lc-sidebar-line { width: 24px; height: 1px; background: var(--gold); }
+  .lc-products { flex: 1; padding: 10px; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+  .lc-prod {
+    background: #111;
+    border: 1px solid #1e1e1e;
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .lc-img { width: 50px; height: 50px; background: linear-gradient(135deg, #1a1510 0%, #231e18 100%); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .lc-img span { font-size: 7px; color: rgba(201,151,90,0.25); }
+  .lc-info { flex: 1; }
+  .lc-name { font-size: 9px; font-weight: 500; color: var(--white); margin-bottom: 2px; }
+  .lc-vol { font-size: 8px; color: var(--white-dim); }
+  .lc-price { font-family: var(--font-display); font-size: 13px; color: var(--gold); }
+</style>
+
+<h2>Perfume list page — which layout?</h2>
+<p class="subtitle">Opens when you click a category card (e.g. "Delights")</p>
+
+<div class="cards">
+
+  <!-- Option A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="layout-a">
+      <div class="la-hero">
+        <div class="la-hero-text">
+          <div class="la-hero-tag">Collection</div>
+          <div class="la-hero-title">Delights</div>
+        </div>
+      </div>
+      <div class="la-grid">
+        <div class="la-prod">
+          <div class="la-img"><span>Photo</span></div>
+          <div class="la-name">Choco Drip</div>
+          <div class="la-price">₹999</div>
+        </div>
+        <div class="la-prod">
+          <div class="la-img"><span>Photo</span></div>
+          <div class="la-name">Butter Silk</div>
+          <div class="la-price">₹899</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Hero Banner + 2-col Grid</h3>
+      <p>Category image as banner, products below in a 2-column grid. Clean, familiar layout.</p>
+    </div>
+  </div>
+
+  <!-- Option B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="layout-b">
+      <div class="lb-hero">
+        <div class="lb-tag">— Lunave —</div>
+        <div class="lb-title">Delights</div>
+        <div class="lb-count">2 Fragrances</div>
+      </div>
+      <div class="lb-grid">
+        <div class="lb-prod">
+          <div class="lb-img"><span>Photo</span></div>
+          <div class="lb-info">
+            <div class="lb-name">Choco Drip</div>
+            <div class="lb-price">₹999</div>
+          </div>
+        </div>
+        <div class="lb-prod">
+          <div class="lb-img"><span>Photo</span></div>
+          <div class="lb-info">
+            <div class="lb-name">Butter Silk</div>
+            <div class="lb-price">₹899</div>
+          </div>
+        </div>
+        <div class="lb-prod" style="opacity:0.3;">
+          <div class="lb-img"></div>
+          <div class="lb-info"><div class="lb-name">+more</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Cinematic Header + 3-col Grid</h3>
+      <p>Centered italic title with gold line, then products in a wider 3-column grid. More dramatic opening.</p>
+    </div>
+  </div>
+
+  <!-- Option C -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="layout-c">
+      <div class="lc-wrap">
+        <div class="lc-sidebar">
+          <div class="lc-sidebar-tag">Collection</div>
+          <div class="lc-sidebar-title">Delights</div>
+          <div class="lc-sidebar-line"></div>
+          <div class="lc-sidebar-desc">Rich, indulgent gourmand scents for every mood.</div>
+        </div>
+        <div class="lc-products">
+          <div class="lc-prod">
+            <div class="lc-img"><span>📷</span></div>
+            <div class="lc-info">
+              <div class="lc-name">Choco Drip</div>
+              <div class="lc-vol">Eau de Parfum · 50ml</div>
+            </div>
+            <div class="lc-price">₹999</div>
+          </div>
+          <div class="lc-prod">
+            <div class="lc-img"><span>📷</span></div>
+            <div class="lc-info">
+              <div class="lc-name">Butter Silk</div>
+              <div class="lc-vol">Eau de Parfum · 50ml</div>
+            </div>
+            <div class="lc-price">₹899</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Sidebar + Scrollable List</h3>
+      <p>Category info in a fixed left sidebar, products in a right-side vertical list. Detailed & editorial feel.</p>
+    </div>
+  </div>
+
+</div>

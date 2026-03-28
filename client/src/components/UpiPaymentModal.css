@@ -1,0 +1,311 @@
+/* ============================================================
+   UPI PAYMENT MODAL — Lunave
+   ============================================================ */
+
+.upi-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: upi-fade-in 0.25s ease;
+}
+
+@keyframes upi-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.upi-modal {
+  background: #111111;
+  border: 1px solid rgba(201, 151, 90, 0.2);
+  border-radius: 4px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+  animation: upi-slide-up 0.3s cubic-bezier(0.32, 0, 0.16, 1);
+  overflow: hidden;
+}
+
+@keyframes upi-slide-up {
+  from { transform: translateY(24px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ── Header ── */
+.upi-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid rgba(201, 151, 90, 0.1);
+}
+.upi-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: #f5f0eb;
+  margin: 0;
+}
+.upi-close {
+  background: none;
+  border: 1px solid rgba(201, 151, 90, 0.2);
+  color: rgba(201, 151, 90, 0.5);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.upi-close:hover {
+  border-color: rgba(201, 151, 90, 0.5);
+  color: #c9975a;
+  background: rgba(201, 151, 90, 0.06);
+}
+
+/* ── Body ── */
+.upi-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.upi-order-ref {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(201, 151, 90, 0.5);
+  margin-bottom: 6px;
+}
+
+.upi-amount {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 42px;
+  font-weight: 500;
+  color: #c9975a;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+.upi-amount span {
+  font-size: 22px;
+  vertical-align: super;
+  margin-right: 2px;
+}
+
+/* ── QR box ── */
+.upi-qr-wrap {
+  background: #f5f0eb;
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 18px;
+  border: 2px solid rgba(201, 151, 90, 0.3);
+  box-shadow: 0 0 24px rgba(201, 151, 90, 0.1);
+}
+.upi-qr-wrap img {
+  display: block;
+  width: 200px;
+  height: 200px;
+}
+.upi-qr-loading {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.3);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── UPI ID pill ── */
+.upi-id-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(201, 151, 90, 0.06);
+  border: 1px solid rgba(201, 151, 90, 0.2);
+  border-radius: 20px;
+  padding: 6px 14px;
+  margin-bottom: 18px;
+}
+.upi-id-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(201, 151, 90, 0.5);
+}
+.upi-id-value {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #c9975a;
+}
+
+/* ── Instructions ── */
+.upi-instructions {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 3px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+}
+.upi-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.upi-step:last-child { margin-bottom: 0; }
+.upi-step-num {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(201, 151, 90, 0.12);
+  border: 1px solid rgba(201, 151, 90, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  color: #c9975a;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.upi-step-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: rgba(245, 240, 235, 0.45);
+  line-height: 1.5;
+}
+
+/* ── Paid button ── */
+.upi-paid-btn {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(201, 151, 90, 0.95), rgba(176, 122, 56, 0.9));
+  border: 1px solid rgba(201, 151, 90, 0.5);
+  color: #0a0a0a;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 16px;
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: box-shadow 0.25s, transform 0.15s;
+  margin-bottom: 10px;
+}
+.upi-paid-btn:hover {
+  box-shadow: 0 8px 28px rgba(201, 151, 90, 0.3);
+  transform: translateY(-1px);
+}
+.upi-paid-btn:active { transform: translateY(0); }
+
+.upi-note {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-align: center;
+  color: rgba(245, 240, 235, 0.2);
+  text-transform: uppercase;
+}
+
+/* ── Success state ── */
+.upi-success {
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  animation: upi-fade-in 0.3s ease;
+}
+.upi-success-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(201, 151, 90, 0.1);
+  border: 1px solid rgba(201, 151, 90, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c9975a;
+}
+.upi-success-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 26px;
+  font-weight: 300;
+  font-style: italic;
+  color: #f5f0eb;
+  margin: 0;
+}
+.upi-success-sub {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 235, 0.35);
+  line-height: 1.7;
+  max-width: 280px;
+}
+.upi-success-ref {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: rgba(201, 151, 90, 0.6);
+  background: rgba(201, 151, 90, 0.06);
+  border: 1px solid rgba(201, 151, 90, 0.15);
+  border-radius: 2px;
+  padding: 6px 14px;
+}
+.upi-continue-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(201, 151, 90, 0.3);
+  color: #c9975a;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 14px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 6px;
+}
+.upi-continue-btn:hover {
+  background: rgba(201, 151, 90, 0.06);
+  border-color: rgba(201, 151, 90, 0.55);
+}
+
+@media (max-width: 480px) {
+  .upi-modal { max-width: 100%; border-radius: 4px 4px 0 0; }
+  .upi-overlay { align-items: flex-end; padding: 0; }
+  .upi-qr-wrap img { width: 180px; height: 180px; }
+  .upi-qr-loading { width: 180px; height: 180px; }
+}

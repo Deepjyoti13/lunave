@@ -43,10 +43,10 @@ const placeOrder = async (req, res, next) => {
     }))
 
     const itemsTotal    = cart.subtotal
-    const shippingPrice = itemsTotal >= 500 ? 0 : 50  // free shipping over ₹500
-    const taxPrice      = +(itemsTotal * 0.18).toFixed(2)  // 18% GST
-    const discount      = 0  // expand later with coupon logic
-    const totalPrice    = +(itemsTotal + shippingPrice + taxPrice - discount).toFixed(2)
+    const shippingPrice = 0
+    const taxPrice      = 0
+    const discount      = 0
+    const totalPrice    = +itemsTotal.toFixed(2)
 
     const order = await Order.create({
       user:            req.user._id,
@@ -68,10 +68,6 @@ const placeOrder = async (req, res, next) => {
         $inc: { stock: -item.quantity },
       })
     }
-
-    // Clear the cart after order placed
-    cart.items = []
-    await cart.save()
 
     res.status(201).json({ success: true, order })
   } catch (err) {

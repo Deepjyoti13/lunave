@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Lock, ArrowRight, Shield, ChevronDown } from 'lucide-react'
 import { useCart } from '../context/Cartcontext'
+import { useAuth } from '../context/AuthContext'
+import UpiPaymentModal from '../components/UpiPaymentModal'
 import './Checkout.css'
 
 const API_URL = 'http://localhost:5001'
@@ -12,7 +14,7 @@ function resolveUrl(url) {
   return `${API_URL}${url}`
 }
 
-function ContactSection({ emailOffers, setEmailOffers }) {
+function ContactSection({ form, onChange, emailOffers, setEmailOffers }) {
   return (
     <div className="co-section">
       <div className="co-section-head">
@@ -23,23 +25,27 @@ function ContactSection({ emailOffers, setEmailOffers }) {
         <div className="co-field-row">
           <div className="co-field">
             <label className="co-label">First Name</label>
-            <input className="co-input" type="text" placeholder="Elena" autoComplete="given-name" />
+            <input className="co-input" type="text" placeholder="Elena" autoComplete="given-name"
+              value={form.firstName} onChange={e => onChange('firstName', e.target.value)} />
           </div>
           <div className="co-field">
             <label className="co-label">Last Name</label>
-            <input className="co-input" type="text" placeholder="Moreau" autoComplete="family-name" />
+            <input className="co-input" type="text" placeholder="Moreau" autoComplete="family-name"
+              value={form.lastName} onChange={e => onChange('lastName', e.target.value)} />
           </div>
         </div>
         <div className="co-field-row single">
           <div className="co-field">
             <label className="co-label">Email Address</label>
-            <input className="co-input" type="email" placeholder="elena@example.com" autoComplete="email" />
+            <input className="co-input" type="email" placeholder="elena@example.com" autoComplete="email"
+              value={form.email} onChange={e => onChange('email', e.target.value)} />
           </div>
         </div>
         <div className="co-field-row single">
           <div className="co-field">
             <label className="co-label">Phone Number</label>
-            <input className="co-input" type="tel" placeholder="+1 (000) 000-0000" autoComplete="tel" />
+            <input className="co-input" type="tel" placeholder="+91 98765 43210" autoComplete="tel"
+              value={form.phone} onChange={e => onChange('phone', e.target.value)} />
           </div>
         </div>
         <div
@@ -58,7 +64,7 @@ function ContactSection({ emailOffers, setEmailOffers }) {
   )
 }
 
-function ShippingAddressSection({ saveAddress, setSaveAddress }) {
+function ShippingAddressSection({ form, onChange, saveAddress, setSaveAddress }) {
   return (
     <div className="co-section">
       <div className="co-section-head">
@@ -69,7 +75,8 @@ function ShippingAddressSection({ saveAddress, setSaveAddress }) {
         <div className="co-field-row single">
           <div className="co-field">
             <label className="co-label">Address Line 1</label>
-            <input className="co-input" type="text" placeholder="Street address" autoComplete="address-line1" />
+            <input className="co-input" type="text" placeholder="Street address" autoComplete="address-line1"
+              value={form.address1} onChange={e => onChange('address1', e.target.value)} />
           </div>
         </div>
         <div className="co-field-row single">
@@ -77,32 +84,37 @@ function ShippingAddressSection({ saveAddress, setSaveAddress }) {
             <label className="co-label">
               Address Line 2 <span className="co-label-opt">(optional)</span>
             </label>
-            <input className="co-input" type="text" placeholder="Apartment, suite, unit, etc." autoComplete="address-line2" />
+            <input className="co-input" type="text" placeholder="Apartment, suite, unit, etc." autoComplete="address-line2"
+              value={form.address2} onChange={e => onChange('address2', e.target.value)} />
           </div>
         </div>
         <div className="co-field-row">
           <div className="co-field">
             <label className="co-label">City</label>
-            <input className="co-input" type="text" placeholder="Paris" autoComplete="address-level2" />
+            <input className="co-input" type="text" placeholder="Kolkata" autoComplete="address-level2"
+              value={form.city} onChange={e => onChange('city', e.target.value)} />
           </div>
           <div className="co-field">
             <label className="co-label">State / Province</label>
-            <input className="co-input" type="text" placeholder="Île-de-France" autoComplete="address-level1" />
+            <input className="co-input" type="text" placeholder="West Bengal" autoComplete="address-level1"
+              value={form.state} onChange={e => onChange('state', e.target.value)} />
           </div>
         </div>
         <div className="co-field-row">
           <div className="co-field">
             <label className="co-label">ZIP / Postal Code</label>
-            <input className="co-input" type="text" placeholder="75001" autoComplete="postal-code" />
+            <input className="co-input" type="text" placeholder="700001" autoComplete="postal-code"
+              value={form.zip} onChange={e => onChange('zip', e.target.value)} />
           </div>
           <div className="co-field">
             <label className="co-label">Country</label>
-            <select className="co-select" autoComplete="country-name">
-              <option>France</option>
+            <select className="co-select" autoComplete="country-name"
+              value={form.country} onChange={e => onChange('country', e.target.value)}>
+              <option>India</option>
               <option>United States</option>
               <option>United Kingdom</option>
               <option>UAE</option>
-              <option>India</option>
+              <option>France</option>
               <option>Germany</option>
               <option>Italy</option>
               <option>Japan</option>
@@ -418,8 +430,18 @@ function MobileAccordion({ items, totalPrice, grandTotal, shippingCost, isFreeSh
 }
 
 export default function Checkout() {
-  const { items, totalPrice, totalCount } = useCart()
+  const { items, totalPrice, totalCount, clearCart } = useCart()
+  const { token } = useAuth()
+  const navigate  = useNavigate()
 
+  /* ── form state ── */
+  const [form, setForm] = useState({
+    firstName: '', lastName: '', email: '', phone: '',
+    address1: '', address2: '', city: '', state: '', zip: '', country: 'India',
+  })
+  const handleField = (key, value) => setForm(prev => ({ ...prev, [key]: value }))
+
+  /* ── UI state ── */
   const [shippingMethod, setShippingMethod] = useState('standard')
   const [accordionOpen, setAccordionOpen]   = useState(false)
   const [emailOffers, setEmailOffers]       = useState(true)
@@ -427,12 +449,75 @@ export default function Checkout() {
   const [saveCard, setSaveCard]             = useState(false)
   const [promoCode, setPromoCode]           = useState('')
 
-  const shippingCost = shippingMethod === 'express' ? 18 : shippingMethod === 'overnight' ? 38 : 0
-  const grandTotal   = totalPrice + shippingCost
-  const isFreeShip   = totalPrice >= 500
+  /* ── order state ── */
+  const [ordering, setOrdering]         = useState(false)
+  const [orderError, setOrderError]     = useState('')
+  const [currentOrder, setCurrentOrder] = useState(null)
+  const [showQrModal, setShowQrModal]   = useState(false)
+
+  const shippingCost = 0
+  const grandTotal   = totalPrice
+  const isFreeShip   = true
+
+  async function handlePlaceOrder() {
+    setOrderError('')
+    setOrdering(true)
+    try {
+      const res = await fetch(`${API_URL}/api/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          shippingAddress: {
+            fullName: `${form.firstName} ${form.lastName}`.trim(),
+            phone: form.phone,
+            line1: form.address1,
+            line2: form.address2,
+            city: form.city,
+            state: form.state,
+            country: form.country,
+            pincode: form.zip,
+          },
+          paymentMethod: 'UPI',
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.message || 'Order failed')
+      setCurrentOrder(data.order)
+      setShowQrModal(true)
+    } catch (err) {
+      setOrderError(err.message)
+    } finally {
+      setOrdering(false)
+    }
+  }
+
+  async function handlePaymentConfirmed() {
+    setShowQrModal(false)
+    // Clear DB cart then local cart
+    try {
+      await fetch(`${API_URL}/api/cart`, {
+        method: 'DELETE',
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      })
+    } catch (_) { /* non-critical */ }
+    clearCart()
+    navigate('/')
+  }
 
   return (
     <>
+      {/* ── UPI Modal ── */}
+      {showQrModal && currentOrder && (
+        <UpiPaymentModal
+          order={currentOrder}
+          onPaid={handlePaymentConfirmed}
+          onClose={() => setShowQrModal(false)}
+        />
+      )}
+
       {/* ── Navbar ── */}
       <nav className="co-nav">
         <Link to="/" className="co-nav-brand">LUNAVE</Link>
@@ -481,11 +566,15 @@ export default function Checkout() {
             <p className="co-page-sub">Complete your order</p>
 
             <ContactSection
+              form={form}
+              onChange={handleField}
               emailOffers={emailOffers}
               setEmailOffers={setEmailOffers}
             />
 
             <ShippingAddressSection
+              form={form}
+              onChange={handleField}
               saveAddress={saveAddress}
               setSaveAddress={setSaveAddress}
             />
@@ -501,10 +590,12 @@ export default function Checkout() {
               setSaveCard={setSaveCard}
             />
 
-            <button className="co-place-btn">
+            {orderError && <p className="co-order-error">{orderError}</p>}
+
+            <button className="co-place-btn" onClick={handlePlaceOrder} disabled={ordering}>
               <Lock size={14} />
-              Place Order
-              <ArrowRight size={14} />
+              {ordering ? 'Placing Order…' : 'Place Order'}
+              {!ordering && <ArrowRight size={14} />}
             </button>
             <p className="co-place-note">
               Your personal data will be used to process your order

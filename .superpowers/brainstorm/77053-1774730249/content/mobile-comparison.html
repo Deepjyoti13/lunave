@@ -1,0 +1,170 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+
+  :root {
+    --black: #0a0a0a; --dark: #111; --dark-card: #161616; --dark-border: #222;
+    --gold: #c9975a; --gold-light: #e8b97a; --white: #f5f0eb;
+    --white-dim: rgba(245,240,235,0.6);
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Montserrat', sans-serif;
+  }
+  body { background: var(--black); font-family: var(--font-body); color: var(--white); margin: 0; }
+  h2, h3 { color: var(--white); }
+  .subtitle { color: var(--white-dim); margin-bottom: 8px; }
+
+  .split { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; align-items: flex-start; margin-top: 28px; }
+
+  /* Phone shell */
+  .phone {
+    width: 200px;
+    border: 2px solid #333;
+    border-radius: 28px;
+    overflow: hidden;
+    background: var(--black);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    flex-shrink: 0;
+  }
+  .phone-bar {
+    background: #0d0d0d;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .phone-notch { width: 50px; height: 8px; background: #1a1a1a; border-radius: 4px; }
+  .phone-screen { overflow: hidden; }
+
+  .phone-label { text-align: center; margin-top: 12px; }
+  .phone-label h3 { font-family: var(--font-display); font-size: 15px; color: var(--white); margin: 0 0 4px; }
+  .phone-label p { font-size: 11px; color: var(--white-dim); margin: 0; line-height: 1.5; }
+  .badge {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border: 1px solid;
+    margin-top: 8px;
+  }
+  .badge-good { border-color: #4caf50; color: #4caf50; }
+  .badge-ok { border-color: var(--gold); color: var(--gold); }
+  .badge-issue { border-color: #e57373; color: #e57373; }
+
+  /* ── Layout A mobile ── */
+  .la-hero { height: 90px; background: linear-gradient(135deg, #1a1510, #2a1f14); display: flex; align-items: flex-end; padding: 10px; position: relative; }
+  .la-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.75) 100%); }
+  .la-tag { font-size: 7px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); position: relative; z-index: 2; }
+  .la-title { font-family: var(--font-display); font-size: 18px; font-weight: 300; font-style: italic; color: var(--white); position: relative; z-index: 2; }
+  .la-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px; }
+  .la-prod { background: #161616; border: 1px solid #222; }
+  .la-img { height: 70px; background: linear-gradient(135deg, #1a1510, #231e18); display: flex; align-items: center; justify-content: center; }
+  .la-img span { font-size: 7px; color: rgba(201,151,90,0.3); text-transform: uppercase; letter-spacing: 0.1em; }
+  .la-info { padding: 6px 8px; }
+  .la-name { font-size: 8px; font-weight: 500; color: var(--white); }
+  .la-price { font-family: var(--font-display); font-size: 11px; color: var(--gold); }
+
+  /* ── Layout B mobile ── */
+  .lb-hero { height: 80px; background: linear-gradient(160deg, #120e0a, #1e1812); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; position: relative; }
+  .lb-hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .lb-tag { font-size: 7px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+  .lb-title { font-family: var(--font-display); font-size: 20px; font-weight: 300; font-style: italic; color: var(--white); }
+  .lb-count { font-size: 8px; color: var(--white-dim); }
+  /* 3-col collapses to 2-col on mobile */
+  .lb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px; }
+  .lb-prod { background: #161616; border: 1px solid #1e1e1e; }
+  .lb-img { height: 70px; background: linear-gradient(135deg, #141210, #1c1915); display: flex; align-items: center; justify-content: center; }
+  .lb-img span { font-size: 7px; color: rgba(201,151,90,0.25); }
+  .lb-info { padding: 6px 8px; }
+  .lb-name { font-size: 8px; font-weight: 500; color: var(--white); }
+  .lb-price { font-family: var(--font-display); font-size: 11px; color: var(--gold); }
+
+  /* ── Layout C mobile: sidebar COLLAPSES to top banner ── */
+  .lc-top { background: linear-gradient(135deg, #1a1510, #0d0b09); padding: 12px; border-bottom: 1px solid #2a2218; }
+  .lc-tag { font-size: 7px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 2px; }
+  .lc-title { font-family: var(--font-display); font-size: 18px; font-weight: 300; font-style: italic; color: var(--white); }
+  .lc-desc { font-size: 8px; color: var(--white-dim); margin-top: 3px; }
+  .lc-list { display: flex; flex-direction: column; gap: 6px; padding: 8px; }
+  .lc-prod { background: #161616; border: 1px solid #1e1e1e; display: flex; gap: 8px; padding: 8px; align-items: center; }
+  .lc-img { width: 44px; height: 44px; background: linear-gradient(135deg, #1a1510, #231e18); flex-shrink: 0; }
+  .lc-info { flex: 1; }
+  .lc-name { font-size: 8px; font-weight: 500; color: var(--white); margin-bottom: 1px; }
+  .lc-vol { font-size: 7px; color: var(--white-dim); }
+  .lc-price { font-family: var(--font-display); font-size: 12px; color: var(--gold); }
+</style>
+
+<h2>Mobile view comparison</h2>
+<p class="subtitle">How each layout adapts to a phone screen (375px width)</p>
+
+<div class="split">
+
+  <!-- Phone A -->
+  <div>
+    <div class="phone">
+      <div class="phone-bar"><div class="phone-notch"></div></div>
+      <div class="phone-screen">
+        <div class="la-hero">
+          <div>
+            <div class="la-tag">Collection</div>
+            <div class="la-title">Delights</div>
+          </div>
+        </div>
+        <div class="la-grid">
+          <div class="la-prod"><div class="la-img"><span>Photo</span></div><div class="la-info"><div class="la-name">Choco Drip</div><div class="la-price">₹999</div></div></div>
+          <div class="la-prod"><div class="la-img"><span>Photo</span></div><div class="la-info"><div class="la-name">Butter Silk</div><div class="la-price">₹899</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-label">
+      <h3>A — Hero + 2-col</h3>
+      <p>2-col stays on mobile.<br>Works naturally, no adjustment needed.</p>
+      <span class="badge badge-good">Works well</span>
+    </div>
+  </div>
+
+  <!-- Phone B -->
+  <div>
+    <div class="phone">
+      <div class="phone-bar"><div class="phone-notch"></div></div>
+      <div class="phone-screen">
+        <div class="lb-hero">
+          <div class="lb-tag">— Lunave —</div>
+          <div class="lb-title">Delights</div>
+          <div class="lb-count">2 Fragrances</div>
+        </div>
+        <div class="lb-grid">
+          <div class="lb-prod"><div class="lb-img"><span>Photo</span></div><div class="lb-info"><div class="lb-name">Choco Drip</div><div class="lb-price">₹999</div></div></div>
+          <div class="lb-prod"><div class="lb-img"><span>Photo</span></div><div class="lb-info"><div class="lb-name">Butter Silk</div><div class="lb-price">₹899</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-label">
+      <h3>B — Cinematic + Grid</h3>
+      <p>3-col collapses to 2-col.<br>Header stays elegant & centered.</p>
+      <span class="badge badge-good">Best mobile fit</span>
+    </div>
+  </div>
+
+  <!-- Phone C -->
+  <div>
+    <div class="phone">
+      <div class="phone-bar"><div class="phone-notch"></div></div>
+      <div class="phone-screen">
+        <div class="lc-top">
+          <div class="lc-tag">Collection</div>
+          <div class="lc-title">Delights</div>
+          <div class="lc-desc">Rich gourmand scents.</div>
+        </div>
+        <div class="lc-list">
+          <div class="lc-prod"><div class="lc-img"></div><div class="lc-info"><div class="lc-name">Choco Drip</div><div class="lc-vol">Eau de Parfum · 50ml</div></div><div class="lc-price">₹999</div></div>
+          <div class="lc-prod"><div class="lc-img"></div><div class="lc-info"><div class="lc-name">Butter Silk</div><div class="lc-vol">Eau de Parfum · 50ml</div></div><div class="lc-price">₹899</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-label">
+      <h3>C — Sidebar + List</h3>
+      <p>Sidebar collapses to top banner.<br>List view is very readable on mobile.</p>
+      <span class="badge badge-ok">Good on mobile</span>
+    </div>
+  </div>
+
+</div>

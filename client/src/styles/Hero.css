@@ -66,11 +66,14 @@
 
 .hero-stage{
   position:relative;
-  width:520px;
-  height:520px;
+  width:100%;
+  height:clamp(460px, 55vw, 580px);
   display:flex;
-  align-items:center;
+  align-items:stretch;
   justify-content:center;
+  overflow:visible;
+  background:none;
+  border:none;
 }
 
 /* BOTTLE */
@@ -213,7 +216,8 @@
 }
 
 .hero-stage{
-  margin-top:40px;
+  height:clamp(320px, 80vw, 460px);
+  margin-top:0;
 }
 
 }
