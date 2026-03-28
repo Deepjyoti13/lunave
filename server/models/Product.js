@@ -58,7 +58,7 @@ const productSchema = new mongoose.Schema(
 
     category: {
       type: String,
-      enum: ['Designer Delights','Travel Essentials','Special Occasions','Seasonal Sensations','Oud','Other'],
+      enum: ['Designer Delights','Travel Essentials','Special Occasions','Seasonal Sensations','Oud','Other','Essentials','Delights','Ethnics'],
       required: [true, 'Category is required'],
     },
     gender:        { type: String, enum: ['Men','Women','Unisex'], default: 'Unisex' },
