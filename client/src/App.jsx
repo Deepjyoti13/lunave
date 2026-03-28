@@ -11,6 +11,7 @@ import Register from './pages/Register.jsx'
 import Login from './pages/Login.jsx'
 import Profile from './pages/Profile.jsx'
 import Checkout from './pages/Checkout.jsx'
+import CollectionPage from './pages/CollectionPage.jsx'
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/collections/:category" element={<CollectionPage />} />
             </Routes>
           </BrowserRouter>
         </WishlistProvider>
